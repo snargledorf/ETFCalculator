@@ -12,10 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import org.joda.time.DateTime;
-import org.joda.time.Instant;
 import org.joda.time.LocalDate;
-import org.joda.time.Months;
 
 /**
  * Created by Ryan on 11/23/13.
@@ -60,7 +57,7 @@ public class CalculatorSection extends Section {
 
         if (view.findViewById(R.id.datepicker_fragment_container) != null) {
             DatePickerFragment datePickerFragment = new DatePickerFragment();
-            getFragmentManager()
+            getChildFragmentManager()
                     .beginTransaction()
                     .replace(R.id.datepicker_fragment_container, datePickerFragment)
                     .commit();
