@@ -2,8 +2,6 @@ package com.theeste.etfcalculator2;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -18,11 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
+
 import org.joda.time.LocalDate;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends Activity implements
         Section.SectionCallbacks,
@@ -57,6 +64,8 @@ public class MainActivity extends Activity implements
                 "com.theeste.etfcalculator2.FastDateTimeZoneProvider");
 
         setContentView(R.layout.activity_main);
+
+        setupAds();
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -142,6 +151,25 @@ public class MainActivity extends Activity implements
         if (!mFromSavedInstanceState) {
             selectItem(0);
         }
+    }
+
+    private void setupAds() {
+        // Create the AdRequest
+        AdRequest adRequest = new AdRequest();
+
+        // Get the list of test devices for the AdRequest
+        String[] testDeviceIDs = getResources().getStringArray(R.array.adbmob_test_devices);
+        List<String> testDeviceIDList = Arrays.asList(testDeviceIDs);
+        Set<String> testDeviceSet = new HashSet<String>(testDeviceIDList);
+        adRequest.setTestDevices(testDeviceSet);
+
+        // Create the AdView
+        AdView adView = new AdView(this, AdSize.BANNER, getString(R.string.admob_id));
+        adView.loadAd(adRequest);
+
+        // Add the AdView to the Ad FrameLayout
+        FrameLayout adFrame = (FrameLayout) findViewById(R.id.ad_frame);
+        adFrame.addView(adView);
     }
 
     @Override

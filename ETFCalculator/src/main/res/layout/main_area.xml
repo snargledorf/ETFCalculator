@@ -13,13 +13,10 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.google.ads.AdView xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-        android:id="@+id/adView"
+    <FrameLayout
+        android:id="@+id/ad_frame"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/admob_id"
-        ads:loadAdOnCreate="true" />
+        android:gravity="bottom"></FrameLayout>
 
 </LinearLayout>
