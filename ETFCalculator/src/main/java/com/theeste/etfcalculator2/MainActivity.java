@@ -128,7 +128,7 @@ public class MainActivity extends Activity implements
                 getActionBar().getThemedContext(),
                 new SectionDrawerItem[]{
                         new CalculatorDrawerItem(),
-                        new PlaceholderDrawerItem("Section 1")
+                        new MyDevicesDrawerItem()
                 });
 
         mDrawerList.setAdapter(mDrawerAdapter);
@@ -258,22 +258,21 @@ public class MainActivity extends Activity implements
         calculatorSection.setContractEndDate(date);
     }
 
-    public class PlaceholderDrawerItem extends SectionDrawerItem {
+    public class MyDevicesDrawerItem extends SectionDrawerItem {
 
-        private String mTitle;
 
-        public PlaceholderDrawerItem(String title) {
-            mTitle = title;
+        public MyDevicesDrawerItem() {
+
         }
 
         @Override
         public Section getSectionInstance() {
-            return new PlaceholderSection(getTitle());
+            return new MyDevicesSection();
         }
 
         @Override
         public String getTitle() {
-            return mTitle;
+            return getString(R.string.my_devices_title);
         }
     }
 

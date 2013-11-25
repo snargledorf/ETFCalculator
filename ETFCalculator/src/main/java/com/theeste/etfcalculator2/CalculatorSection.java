@@ -43,7 +43,7 @@ public class CalculatorSection extends Section {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calc, container, false);
+        View view = inflater.inflate(R.layout.section_calculator, container, false);
 
         setupCarrierSpinner(view);
         setupSmartPhoneToggle(view);
