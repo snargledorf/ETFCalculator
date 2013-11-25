@@ -138,9 +138,7 @@ public class CalculatorSection extends Section {
         if (mSelectedCarrier == null)
             return;
 
-        long start = Instant.now().getMillis();
         double etf = mSelectedCarrier.getETF(mTodaysDate, getContractEndDate(), mSmartphone);
-        long diff = Instant.now().getMillis() - start;
 
         mETFLabel.setText(String.format("$%.2f", etf));
     }
