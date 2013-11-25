@@ -1,8 +1,13 @@
 package com.theeste.etfcalculator2;
 
+import org.joda.time.DateTimeFieldType;
 import org.joda.time.Days;
+import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
+import org.joda.time.Period;
+import org.joda.time.YearMonth;
+import org.joda.time.Years;
 
 /**
  * Created by Ryan on 11/23/13.
@@ -24,7 +29,7 @@ public class ETFCalculator {
     public static final double SPRINT_MINIMUM_SMARTPHONE = 100;
     public static final double SPRINT_MINIMUM = 50;
 
-    public static double getVerizonETF(LocalDate contractStartDate, LocalDate etfCheckDate,
+    public static double getVerizonETF(LocalDate startDate, LocalDate endDate,
                                        boolean smartPhone) {
 
         double basePrice = VERIZON_BASE_PRICE;
@@ -35,16 +40,16 @@ public class ETFCalculator {
             reductionAmount = VERIZON_MONTHLY_REDUCTION_SMARTPHONE;
         }
 
-        return getAttVerizonETF(contractStartDate,
-                etfCheckDate,
+        return getAttVerizonETF(startDate,
+                endDate,
                 basePrice,
                 reductionAmount);
     }
 
-    public static double getTMobileETF(LocalDate contractStartDate, LocalDate etfCheckDate,
+    public static double getTMobileETF(LocalDate startDate, LocalDate endDate,
                                        boolean smartPhone) {
 
-        Days days = Days.daysBetween(contractStartDate, etfCheckDate);
+        Days days = Days.daysBetween(startDate, endDate);
 
         if (days.isGreaterThan(Days.days(180))) {
             return 200;
@@ -57,10 +62,10 @@ public class ETFCalculator {
         return 50;
     }
 
-    public static double getSprintETF(LocalDate contractStartDate, LocalDate etfCheckDate,
+    public static double getSprintETF(LocalDate startDate, LocalDate endDate,
                                       boolean smartPhone) {
 
-        Months months = Months.monthsBetween(contractStartDate, etfCheckDate);
+        Months months = Months.monthsBetween(startDate, endDate);
         double factor = months.getMonths();
         double sprintMinimum = SPRINT_MINIMUM;
 
@@ -81,7 +86,7 @@ public class ETFCalculator {
         return factor * 10;
     }
 
-    public static double getAttETF(LocalDate contractStartDate, LocalDate etfCheckDate,
+    public static double getAttETF(LocalDate startDate, LocalDate endDate,
                                    boolean smartPhone) {
 
         double basePrice = ATT_BASE_PRICE;
@@ -92,24 +97,31 @@ public class ETFCalculator {
             reductionAmount = ATT_MONTHLY_REDUCTION_SMARTPHONE;
         }
 
-        return getAttVerizonETF(contractStartDate,
-                etfCheckDate,
+        return getAttVerizonETF(startDate,
+                endDate,
                 basePrice,
                 reductionAmount);
     }
 
-    private static double getAttVerizonETF(LocalDate contractStartDate,
-                                           LocalDate etfCheckDate,
+    private static double getAttVerizonETF(LocalDate startDate,
+                                           LocalDate endDate,
                                            double basePrice,
                                            double reductionAmount) {
 
-        if (etfCheckDate.isBefore(contractStartDate)) {
+        Months monthsLeftOnContract = Months.monthsBetween(startDate, endDate);
+
+        if (monthsLeftOnContract.getMonths() <= 0)
             return 0;
-        }
 
-        Months months = Months.monthsBetween(contractStartDate, etfCheckDate);
+        int monthsIntoContract = Months.TWELVE
+                .multipliedBy(2)
+                .minus(monthsLeftOnContract)
+                .getMonths();
 
-        double result = basePrice - (months.getMonths() * reductionAmount);
+        if (monthsIntoContract < 0)
+            monthsIntoContract = 0;
+
+        double result = basePrice - (monthsIntoContract * reductionAmount);
 
         if (result < 0) {
             result = 0;

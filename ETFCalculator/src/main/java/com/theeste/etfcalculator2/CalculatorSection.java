@@ -12,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import org.joda.time.DateTime;
+import org.joda.time.Instant;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
 
@@ -47,23 +49,22 @@ public class CalculatorSection extends Section {
         View view = inflater.inflate(R.layout.fragment_calc, container, false);
 
         setupCarrierSpinner(view);
-
         setupSmartPhoneToggle(view);
-
-        if (view.findViewById(R.id.contract_end_date_button) != null) {
-            setupContractEndButton(view);
-        }
+        setupContractEndButton(view);
 
         setContractEndDate(mContractEndDate);
 
+        mETFLabel = (TextView)view.findViewById(R.id.etf_label);
+
+        updateETF();
+
         if (view.findViewById(R.id.datepicker_fragment_container) != null) {
             DatePickerFragment datePickerFragment = new DatePickerFragment();
-            getFragmentManager().beginTransaction()
+            getFragmentManager()
+                    .beginTransaction()
                     .replace(R.id.datepicker_fragment_container, datePickerFragment)
                     .commit();
         }
-
-        mETFLabel = (TextView)view.findViewById(R.id.etf_label);
 
         return view;
     }
@@ -71,6 +72,10 @@ public class CalculatorSection extends Section {
     private void setupContractEndButton(View view) {
 
         mContactEndDateButton = (Button) view.findViewById(R.id.contract_end_date_button);
+
+        if (mContactEndDateButton == null) {
+            return;
+        }
 
         mContactEndDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,10 +138,9 @@ public class CalculatorSection extends Section {
         if (mSelectedCarrier == null)
             return;
 
-        if (getView() == null)
-            return;
-
+        long start = Instant.now().getMillis();
         double etf = mSelectedCarrier.getETF(mTodaysDate, getContractEndDate(), mSmartphone);
+        long diff = Instant.now().getMillis() - start;
 
         mETFLabel.setText(String.format("$%.2f", etf));
     }

@@ -10,8 +10,8 @@ import org.joda.time.LocalDate;
 public abstract class Carrier {
     public abstract String getName();
 
-    public abstract double getETF(LocalDate contractStartDate,
-                                  LocalDate etfCheckDate,
+    public abstract double getETF(LocalDate startDate,
+                                  LocalDate endDate,
                                   boolean smartPhone);
 
     @Override
@@ -27,10 +27,10 @@ public abstract class Carrier {
         }
 
         @Override
-        public double getETF(LocalDate contractStartDate,
-                             LocalDate etfCheckDate,
+        public double getETF(LocalDate startDate,
+                             LocalDate endDate,
                              boolean smartPhone) {
-            return ETFCalculator.getAttETF(contractStartDate, etfCheckDate, smartPhone);
+            return ETFCalculator.getAttETF(startDate, endDate, smartPhone);
         }
     }
 
@@ -42,10 +42,10 @@ public abstract class Carrier {
         }
 
         @Override
-        public double getETF(LocalDate contractStartDate,
-                             LocalDate etfCheckDate,
+        public double getETF(LocalDate startDate,
+                             LocalDate endDate,
                              boolean smartPhone) {
-            return ETFCalculator.getVerizonETF(contractStartDate, etfCheckDate, smartPhone);
+            return ETFCalculator.getVerizonETF(startDate, endDate, smartPhone);
         }
     }
 
@@ -57,10 +57,10 @@ public abstract class Carrier {
         }
 
         @Override
-        public double getETF(LocalDate contractStartDate,
-                             LocalDate etfCheckDate,
+        public double getETF(LocalDate startDate,
+                             LocalDate endDate,
                              boolean smartPhone) {
-            return ETFCalculator.getSprintETF(contractStartDate, etfCheckDate, smartPhone);
+            return ETFCalculator.getSprintETF(startDate, endDate, smartPhone);
         }
     }
 
@@ -72,10 +72,10 @@ public abstract class Carrier {
         }
 
         @Override
-        public double getETF(LocalDate contractStartDate,
-                             LocalDate etfCheckDate,
+        public double getETF(LocalDate startDate,
+                             LocalDate endDate,
                              boolean smartPhone) {
-            return ETFCalculator.getTMobileETF(contractStartDate, etfCheckDate, smartPhone);
+            return ETFCalculator.getTMobileETF(startDate, endDate, smartPhone);
         }
     }
 

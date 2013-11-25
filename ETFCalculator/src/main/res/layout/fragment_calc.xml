@@ -51,5 +51,5 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/etf_label"
-        android:text="$150.00" />
+        android:text="@string/etf_default_text" />
 </LinearLayout>
