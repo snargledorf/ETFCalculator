@@ -15,7 +15,7 @@
     <string name="calculator">Calculator</string>
     <string name="calculate_button">Calculate</string>
     <string name="months_remaining">Months remaining</string>
-    <string name="smartphone_checkbox">Smartphone</string>
+    <string name="smartphone_toggle">Smartphone</string>
     <string name="carrier_selection_prompt">Select your carrier</string>
     <string name="early_termination_fee_label">Your early termination fee is approximately</string>
     <string name="contract_end_date_label">When does your contract end?</string>

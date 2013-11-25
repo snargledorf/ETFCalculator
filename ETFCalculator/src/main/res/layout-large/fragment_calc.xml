@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center_horizontal"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:id="@+id/linearLayout"
+    android:gravity="center_horizontal">
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/carrier_spinner"
+        android:id="@id/carrier_spinner"
         android:spinnerMode="dialog"
         android:prompt="@string/carrier_selection_prompt"
         android:layout_marginTop="18dp" />
 
     <ToggleButton
-        android:id="@+id/smartphone_toggle"
+        android:id="@id/smartphone_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/smartphone_toggle"
@@ -30,26 +30,26 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/contract_end_date_label"
-        android:id="@+id/contract_end_date_label"
+        android:id="@+id/textView"
         android:layout_marginTop="5dp" />
 
-    <Button
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_end_date"
-        android:id="@+id/contract_end_date_button" />
+        android:id="@+id/datepicker_fragment_container"></FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/early_termination_fee_label"
-        android:layout_marginTop="35dp" />
+        android:layout_marginTop="35dp"
+        android:id="@+id/textView2" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/etf_label"
+        android:id="@id/etf_label"
         android:text="$150.00" />
 </LinearLayout>

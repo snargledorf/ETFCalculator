@@ -2,6 +2,8 @@ package com.theeste.etfcalculator2;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -16,10 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements Section.SectionCallbacks {
+import org.joda.time.LocalDate;
+
+public class MainActivity extends Activity implements
+        Section.SectionCallbacks,
+        DatePickerFragment.DatePickerFragmentCallbacks {
 
     /**
      * Remember the position of the selected item.
@@ -90,7 +97,7 @@ public class MainActivity extends Activity implements Section.SectionCallbacks {
                     // the navigation drawer automatically in the future.
                     mUserLearnedDrawer = true;
                     SharedPreferences sp = PreferenceManager
-                    .getDefaultSharedPreferences(MainActivity.this);
+                            .getDefaultSharedPreferences(MainActivity.this);
                     sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
 
@@ -199,6 +206,28 @@ public class MainActivity extends Activity implements Section.SectionCallbacks {
     public void setTitle(String title) {
         mTitle = title;
         getActionBar().setTitle(mTitle);
+    }
+
+    @Override
+    public LocalDate getDefaultDate() {
+        CalculatorSection calculatorSection =
+                (CalculatorSection)getFragmentManager().findFragmentById(R.id.container);
+
+        if (calculatorSection == null)
+            return LocalDate.now();
+
+        return calculatorSection.getContractEndDate();
+    }
+
+    @Override
+    public void onDateChanged(LocalDate date) {
+        CalculatorSection calculatorSection =
+                (CalculatorSection)getFragmentManager().findFragmentById(R.id.container);
+
+        if (calculatorSection == null)
+            return;
+
+        calculatorSection.setContractEndDate(date);
     }
 
     public class PlaceholderDrawerItem extends SectionDrawerItem {
