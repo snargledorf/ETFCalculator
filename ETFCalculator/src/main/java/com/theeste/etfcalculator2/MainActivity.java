@@ -33,7 +33,9 @@ import java.util.Set;
 
 public class MainActivity extends Activity implements
         Section.SectionCallbacks,
-        DatePickerFragment.DatePickerFragmentCallbacks {
+        DatePickerFragment.DatePickerFragmentCallbacks,
+        ETFCalculatorDatasource.DatasourceProvider,
+        MyDevicesSection.MyDevicesCallbacks {
 
     /**
      * Remember the position of the selected item.
@@ -56,6 +58,8 @@ public class MainActivity extends Activity implements
     private boolean mFromSavedInstanceState;
     private DrawerAdapter mDrawerAdapter;
 
+    private ETFCalculatorDatasource mDatasource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,8 @@ public class MainActivity extends Activity implements
                 "com.theeste.etfcalculator2.FastDateTimeZoneProvider");
 
         setContentView(R.layout.activity_main);
+
+        mDatasource = new ETFCalculatorDatasource(this);
 
         setupAds();
 
@@ -256,6 +262,34 @@ public class MainActivity extends Activity implements
             return;
 
         calculatorSection.setContractEndDate(date);
+    }
+
+    @Override
+    public ETFCalculatorDatasource getDatasource() {
+        return mDatasource;
+    }
+
+    @Override
+    public void addDevice() {
+        AddDeviceFragment addDeviceFragment = new AddDeviceFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, addDeviceFragment)
+                .addToBackStack(null)
+                .commit();
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+    }
+
+    @Override
+    public boolean isDrawerOpen() {
+        return mDrawerLayout.isDrawerOpen(mDrawerList);
     }
 
     public class MyDevicesDrawerItem extends SectionDrawerItem {

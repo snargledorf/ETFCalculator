@@ -3,18 +3,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="48dp"
     android:divider="@android:color/darker_gray"
     android:dividerPadding="2dp">
 
-    <TextView
-        style="@android:style/TextAppearance.Large"
+    <CheckedTextView
+        style="@android:style/TextAppearance.Medium"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:gravity="center_vertical"
-        android:paddingStart="10dp"
         android:textColor="@android:color/black"
         android:text="temp"
-        android:id="@id/drawer_item_text" />
+        android:id="@id/drawer_item_text"
+        android:paddingStart="16dp"
+        android:background="?android:attr/activatedBackgroundIndicator" />
 
 </LinearLayout>
