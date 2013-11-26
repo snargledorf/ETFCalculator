@@ -24,5 +24,7 @@
     <string name="my_devices_title">My Devices</string>
     <string name="title_activity_add_new_device">Add New Device</string>
     <string name="hello_world">Hello world!</string>
+    <string name="placeholder_text">Placeholder</string>
+    <string name="delete">Delete</string>
 
 </resources>

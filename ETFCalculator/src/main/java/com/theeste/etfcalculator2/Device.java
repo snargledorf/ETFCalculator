@@ -1,5 +1,7 @@
 package com.theeste.etfcalculator2;
 
+import android.database.Cursor;
+
 import org.joda.time.LocalDate;
 
 /**
@@ -8,7 +10,7 @@ import org.joda.time.LocalDate;
 public class Device {
     private long mId;
     private String mName;
-    private int mCarrier;
+    private Carrier mCarrier;
     private LocalDate mContractEndDate;
     private int mNotificationType;
     private boolean mIsSmartPhone;
@@ -29,11 +31,11 @@ public class Device {
         this.mName = mName;
     }
 
-    public int getCarrier() {
+    public Carrier getCarrier() {
         return mCarrier;
     }
 
-    public void setCarrier(int mCarrier) {
+    public void setCarrier(Carrier mCarrier) {
         this.mCarrier = mCarrier;
     }
 
@@ -59,5 +61,17 @@ public class Device {
 
     public void isSmartPhone(boolean isSmartPhone) {
         mIsSmartPhone = isSmartPhone;
+    }
+
+    public static Device from(Cursor cursor) {
+        Device device = new Device();
+        int position = 0;
+        device.setId(cursor.getLong(position++));
+        device.setName(cursor.getString(position++));
+        device.setCarrier(Carrier.getCarrierInstance(cursor.getInt(position++)));
+        device.isSmartPhone(cursor.getInt(position++) > 0);
+        device.setContractEndDate(LocalDate.parse(cursor.getString(position++)));
+        device.setNotificationType(cursor.getInt(position++));
+        return device;
     }
 }
