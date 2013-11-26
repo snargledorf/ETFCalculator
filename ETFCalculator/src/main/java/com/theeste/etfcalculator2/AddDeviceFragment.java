@@ -67,7 +67,7 @@ class AddDeviceFragment extends Fragment {
             if (!datasource.isOpen())
                 datasource.open();
 
-            Device device = datasource.createDevice("testDevice", 0, LocalDate.now(), 0);
+            datasource.createDevice("testDevice", 0, false, LocalDate.now(), 0);
 
             return null;
         }

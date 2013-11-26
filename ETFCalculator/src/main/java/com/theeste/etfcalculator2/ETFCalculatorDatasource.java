@@ -35,12 +35,13 @@ public class ETFCalculatorDatasource {
         return mDatabase != null;
     }
 
-    public Device createDevice(String name, int carrier, LocalDate contractEndDate, int notificationType) {
+    public Device createDevice(String name, int carrier, boolean smartPhone, LocalDate contractEndDate, int notificationType) {
         checkIfDatabaseIsOpen();
 
         ContentValues values = new ContentValues();
         values.put(DeviceEntry.NAME, name);
         values.put(DeviceEntry.CARRIER, carrier);
+        values.put(DeviceEntry.SMART_PHONE, smartPhone ? 1 : 0);
         values.put(DeviceEntry.CONTRACT_END_DATE, contractEndDate.toString());
         values.put(DeviceEntry.NOTIFICATION_TYPE, notificationType);
 
@@ -93,9 +94,8 @@ public class ETFCalculatorDatasource {
         device.setId(cursor.getLong(position++));
         device.setName(cursor.getString(position++));
         device.setCarrier(cursor.getInt(position++));
-        String contractEndDateString = cursor.getString(position++);
-        LocalDate contractEndDate = LocalDate.parse(contractEndDateString);
-        device.setContractEndDate(contractEndDate);
+        device.isSmartPhone(cursor.getInt(position++) > 0);
+        device.setContractEndDate(LocalDate.parse(cursor.getString(position++)));
         device.setNotificationType(cursor.getInt(position++));
         return device;
     }

@@ -11,6 +11,7 @@ public class Device {
     private int mCarrier;
     private LocalDate mContractEndDate;
     private int mNotificationType;
+    private boolean mIsSmartPhone;
 
     public long getId() {
         return mId;
@@ -50,5 +51,13 @@ public class Device {
 
     public void setNotificationType(int mNotificationType) {
         this.mNotificationType = mNotificationType;
+    }
+
+    public boolean isSmartPhone() {
+        return mIsSmartPhone;
+    }
+
+    public void isSmartPhone(boolean isSmartPhone) {
+        mIsSmartPhone = isSmartPhone;
     }
 }
