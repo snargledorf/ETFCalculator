@@ -78,7 +78,7 @@ public class CalculatorSection extends Section {
             @Override
             public void onClick(View view) {
                 DatePickerFragment datePickerFragment = new DatePickerFragment();
-                datePickerFragment.show(getChildFragmentManager(), "datepicker_fragment");
+                datePickerFragment.show(getFragmentManager(), "datepicker_fragment");
             }
         });
     }

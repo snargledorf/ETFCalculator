@@ -3,11 +3,12 @@ package com.theeste.etfcalculator2;
 /**
  * Created by ryan on 11/24/13.
  */
+
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.os.Bundle;
 import android.app.DialogFragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,16 +31,23 @@ public class DatePickerFragment extends DialogFragment
         mDatePickerFragmentCallbacks = (DatePickerFragmentCallbacks)activity;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    String CREATE_DIALOG = "create_dialog";
 
-        LocalDate date = mDatePickerFragmentCallbacks.getDefaultDate();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getDialog() != null)
+            return super.onCreateView(inflater, container, savedInstanceState);
+
         DatePicker datePicker = new DatePicker(getActivity());
         datePicker.setCalendarViewShown(false);
         datePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-        datePicker.init(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth(), this);
+
+        LocalDate date = mDatePickerFragmentCallbacks.getDefaultDate();
+        datePicker.init(date.getYear(),
+                date.getMonthOfYear() - 1,
+                date.getDayOfMonth(),
+                this);
+
         return datePicker;
     }
 
@@ -47,14 +55,18 @@ public class DatePickerFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         LocalDate date = mDatePickerFragmentCallbacks.getDefaultDate();
-        // Create a new instance of DatePickerDialog and return it
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 getActivity(),
                 this,
                 date.getYear(),
                 date.getMonthOfYear() - 1,
                 date.getDayOfMonth());
+
         datePickerDialog.getDatePicker().setCalendarViewShown(false);
+        datePickerDialog.getDatePicker()
+                .setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+
         return datePickerDialog;
     }
 
