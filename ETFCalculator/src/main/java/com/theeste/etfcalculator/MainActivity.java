@@ -1,4 +1,4 @@
-package com.theeste.etfcalculator2;
+package com.theeste.etfcalculator;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -9,8 +9,6 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 
-import org.joda.time.LocalDate;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +17,9 @@ import java.util.Set;
 import static android.app.ActionBar.Tab;
 
 public class MainActivity extends Activity implements
-        DatePickerFragment.DatePickerFragmentCallbacks {
+        DatePickerFragment.OnDateChangeListener,
+        CalculatorFragment.CalculatorFragmentCallbacks,
+        MyDevicesFragment.MyDeviceFragmentCallbacks {
 
     private final String CURRENT_TAB = "current_tab";
 
@@ -29,8 +29,9 @@ public class MainActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        String fullQualifiedName = FastDateTimeZoneProvider.class.getCanonicalName();
         System.setProperty("org.joda.time.DateTimeZone.Provider",
-                "com.theeste.etfcalculator2.FastDateTimeZoneProvider");
+                fullQualifiedName);
 
         setContentView(R.layout.activity_main);
 
@@ -53,7 +54,7 @@ public class MainActivity extends Activity implements
             setupActionBarTabs();
             if (savedInstanceState != null) {
                 int selectedTab = savedInstanceState.getInt(CURRENT_TAB, 0);
-                actionBar.setSelectedNavigationItem(selectedTab);
+                selectTab(selectedTab);
             }
             actionBar.setTitle(mTitle);
         }
@@ -94,6 +95,13 @@ public class MainActivity extends Activity implements
         }
     }
 
+    private void selectTab(int i) {
+        ActionBar actionBar = getActionBar();
+        if (actionBar == null)
+            return;
+        actionBar.setSelectedNavigationItem(i);
+    }
+
     private void setupAds() {
         // Create the AdRequest
         AdRequest adRequest = new AdRequest();
@@ -114,20 +122,28 @@ public class MainActivity extends Activity implements
     }
 
     @Override
-    public LocalDate getDefaultDate() {
-        CalculatorFragment calculatorFragment =
-                (CalculatorFragment) getFragmentManager().findFragmentByTag(CalculatorFragment.TAG);
-        if (calculatorFragment == null)
-            return LocalDate.now();
-        return calculatorFragment.getContractEndDate();
-    }
-
-    @Override
-    public void onDateChanged(LocalDate date) {
+    public void onDateChanged(int year, int month, int day) {
         CalculatorFragment calculatorFragment =
                 (CalculatorFragment) getFragmentManager().findFragmentByTag(CalculatorFragment.TAG);
         if (calculatorFragment == null)
             return;
-        calculatorFragment.setContractEndDate(date);
+        calculatorFragment.setContractEndDate(year, month, day);
+    }
+
+    @Override
+    public void addDevice() {
+        AddDeviceFragment addDeviceFragment = new AddDeviceFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, addDeviceFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void setContractEndDateButtonClicked(int year, int month, int day) {
+        DatePickerFragment datePickerFragment = DatePickerFragment.newInstance(year, month, day);
+        datePickerFragment.setTitle("Contract End Date");
+        datePickerFragment.show(getFragmentManager(), "date_picker");
     }
 }

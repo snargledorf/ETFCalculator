@@ -1,4 +1,4 @@
-package com.theeste.etfcalculator2;
+package com.theeste.etfcalculator;
 
 import android.app.ActionBar;
 import android.app.Activity;

@@ -15,15 +15,15 @@
         android:layout_height="fill_parent"
         android:gravity="center_horizontal"
         android:layout_weight=".5"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:layout_marginTop="16dp">
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/carrier_spinner"
             android:spinnerMode="dialog"
-            android:prompt="@string/carrier_selection_prompt"
-            android:layout_marginTop="18dp" />
+            android:prompt="@string/carrier_selection_prompt" />
 
         <ToggleButton
             android:id="@id/smartphone_toggle"

@@ -1,5 +1,6 @@
-package com.theeste.etfcalculator2;
+package com.theeste.etfcalculator;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
@@ -19,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.theeste.etfcalculator.provider.ETFCalculatorContract.Devices;
+
 /**
  * Created by Ryan on 11/23/13.
  */
@@ -27,18 +30,29 @@ public class MyDevicesFragment extends Fragment implements LoaderManager.LoaderC
     public static final String TAG = "mydevices";
     GridView mDeviceGrid;
     private CursorAdapter mDeviceGridAdapter;
+    private MyDeviceFragmentCallbacks mCallbacks;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (MyDeviceFragmentCallbacks) activity;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mDeviceGridAdapter = new DeviceListAdapter(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.section_my_devices, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_devices, container, false);
+
         mDeviceGrid = (GridView) view.findViewById(R.id.device_grid);
+        mDeviceGrid.setAdapter(mDeviceGridAdapter);
+
         return view;
     }
 
@@ -57,37 +71,23 @@ public class MyDevicesFragment extends Fragment implements LoaderManager.LoaderC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_device:
-                addDevice();
+                mCallbacks.addDevice();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void addDevice() {
-        AddDeviceFragment addDeviceFragment = new AddDeviceFragment();
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, addDeviceFragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
     private void loadDevices() {
-        getLoaderManager().initLoader(0, null, this);
-        mDeviceGridAdapter = new DeviceListAdapter(null);
-        mDeviceGrid.setAdapter(mDeviceGridAdapter);
-    }
-
-    private void deleteDevice(Device device) {
-        ETFCalculatorContentProvider.deleteDevice(device, getActivity().getContentResolver());
+        LoaderManager loaderManager = getLoaderManager();
+        loaderManager.initLoader(0, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(getActivity(),
-                ETFCalculatorContentProvider.DEVICES_URI,
-                DeviceEntry.ALL_COLUMNS, null, null, null);
+                Devices.CONTENT_URI,
+                Device.DevicesQuery.PROJECTION, null, null, null);
     }
 
     @Override
@@ -102,8 +102,8 @@ public class MyDevicesFragment extends Fragment implements LoaderManager.LoaderC
 
     private class DeviceListAdapter extends CursorAdapter {
 
-        public DeviceListAdapter(Cursor cursor) {
-            super(getActivity(), cursor, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        public DeviceListAdapter(Context context) {
+            super(context, null, 0);
         }
 
         @Override
@@ -149,7 +149,7 @@ public class MyDevicesFragment extends Fragment implements LoaderManager.LoaderC
 
                             switch (menuItem.getItemId()) {
                                 case R.id.delete:
-                                    deleteDevice(device);
+                                    device.delete(getActivity().getContentResolver());
                                     return true;
                             }
 
@@ -157,5 +157,9 @@ public class MyDevicesFragment extends Fragment implements LoaderManager.LoaderC
                         }
                     };
         }
+    }
+
+    public interface MyDeviceFragmentCallbacks {
+        void addDevice();
     }
 }

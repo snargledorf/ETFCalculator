@@ -26,5 +26,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="placeholder_text">Placeholder</string>
     <string name="delete">Delete</string>
+    <string name="done">Done</string>
+    <string name="ok">Ok</string>
 
 </resources>

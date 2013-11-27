@@ -36,7 +36,7 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/datepicker_fragment_container"></FrameLayout>
+        android:id="@+id/datepicker_fragment_container" />
 
     <TextView
         android:layout_width="wrap_content"

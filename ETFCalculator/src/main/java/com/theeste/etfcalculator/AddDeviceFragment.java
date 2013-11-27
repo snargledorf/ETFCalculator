@@ -1,6 +1,6 @@
-package com.theeste.etfcalculator2;
+package com.theeste.etfcalculator;
 
-import android.app.Fragment;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +12,7 @@ import org.joda.time.LocalDate;
 /**
  * A placeholder fragment containing a simple view.
  */
-class AddDeviceFragment extends Fragment {
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+public class AddDeviceFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,20 +22,17 @@ class AddDeviceFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addDevice();
+                Device.create(
+                        "Test Device",
+                        Carrier.CARRIER_ATT,
+                        false,
+                        LocalDate.now(),
+                        0,
+                        getActivity().getContentResolver());
+
+                getFragmentManager().popBackStack();
             }
         });
         return rootView;
-    }
-
-    private void addDevice() {
-        ETFCalculatorContentProvider.createDevice("Test Device",
-                Carrier.CARRIER_ID_ATT,
-                false,
-                LocalDate.now(),
-                0,
-                getActivity().getContentResolver());
-
-        getActivity().onBackPressed();
     }
 }

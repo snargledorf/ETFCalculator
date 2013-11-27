@@ -1,4 +1,4 @@
-package com.theeste.etfcalculator2;
+package com.theeste.etfcalculator;
 
 import org.joda.time.LocalDate;
 
@@ -14,29 +14,34 @@ public abstract class Carrier {
     public static final int CARRIER_ID_SPRINT = CARRIER_ID_VERIZON + 1;
     public static final int CARRIER_ID_TMOBILE = CARRIER_ID_SPRINT + 1;
 
+    public static final Carrier CARRIER_ATT = new Att();
+    public static final Carrier CARRIER_VERIZON = new Verizon();
+    public static final Carrier CARRIER_SPRINT = new Sprint();
+    public static final Carrier CARRIER_TMOBILE = new TMobile();
+
     public abstract String getName();
 
     public abstract int getCarrierId();
 
-    public abstract double getETF(LocalDate startDate,
-                                  LocalDate endDate,
-                                  boolean smartPhone);
+    public abstract double calculateEtf(LocalDate startDate,
+                                        LocalDate endDate,
+                                        boolean smartPhone);
 
     @Override
     public String toString() {
         return getName();
     }
 
-    public static Carrier getCarrierInstance(int carrier) {
+    public static Carrier getCarrier(int carrier) {
         switch (carrier) {
             case CARRIER_ID_ATT:
-                return new Att();
+                return CARRIER_ATT;
             case CARRIER_ID_VERIZON:
-                return new Verizon();
+                return CARRIER_VERIZON;
             case CARRIER_ID_SPRINT:
-                return new Sprint();
+                return CARRIER_SPRINT;
             case CARRIER_ID_TMOBILE:
-                return new TMobile();
+                return CARRIER_TMOBILE;
             default:
                 throw new IllegalArgumentException("Invalid carrier id: " + carrier);
         }
@@ -55,10 +60,10 @@ public abstract class Carrier {
         }
 
         @Override
-        public double getETF(LocalDate startDate,
-                             LocalDate endDate,
-                             boolean smartPhone) {
-            return ETFCalculator.getAttETF(startDate, endDate, smartPhone);
+        public double calculateEtf(LocalDate startDate,
+                                   LocalDate endDate,
+                                   boolean smartPhone) {
+            return ETFCalculator.calculateAttEtf(startDate, endDate, smartPhone);
         }
     }
 
@@ -75,10 +80,10 @@ public abstract class Carrier {
         }
 
         @Override
-        public double getETF(LocalDate startDate,
-                             LocalDate endDate,
-                             boolean smartPhone) {
-            return ETFCalculator.getVerizonETF(startDate, endDate, smartPhone);
+        public double calculateEtf(LocalDate startDate,
+                                   LocalDate endDate,
+                                   boolean smartPhone) {
+            return ETFCalculator.calculateVerizonEtf(startDate, endDate, smartPhone);
         }
     }
 
@@ -95,10 +100,10 @@ public abstract class Carrier {
         }
 
         @Override
-        public double getETF(LocalDate startDate,
-                             LocalDate endDate,
-                             boolean smartPhone) {
-            return ETFCalculator.getSprintETF(startDate, endDate, smartPhone);
+        public double calculateEtf(LocalDate startDate,
+                                   LocalDate endDate,
+                                   boolean smartPhone) {
+            return ETFCalculator.calculateSprintEtf(startDate, endDate, smartPhone);
         }
     }
 
@@ -115,10 +120,10 @@ public abstract class Carrier {
         }
 
         @Override
-        public double getETF(LocalDate startDate,
-                             LocalDate endDate,
-                             boolean smartPhone) {
-            return ETFCalculator.getTMobileETF(startDate, endDate, smartPhone);
+        public double calculateEtf(LocalDate startDate,
+                                   LocalDate endDate,
+                                   boolean smartPhone) {
+            return ETFCalculator.calculateTMobileEtf(startDate, endDate, smartPhone);
         }
     }
 

@@ -1,13 +1,8 @@
-package com.theeste.etfcalculator2;
+package com.theeste.etfcalculator;
 
-import org.joda.time.DateTimeFieldType;
 import org.joda.time.Days;
-import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
-import org.joda.time.Period;
-import org.joda.time.YearMonth;
-import org.joda.time.Years;
 
 /**
  * Created by Ryan on 11/23/13.
@@ -29,8 +24,8 @@ public class ETFCalculator {
     public static final double SPRINT_MINIMUM_SMARTPHONE = 100;
     public static final double SPRINT_MINIMUM = 50;
 
-    public static double getVerizonETF(LocalDate startDate, LocalDate endDate,
-                                       boolean smartPhone) {
+    public static double calculateVerizonEtf(LocalDate startDate, LocalDate endDate,
+                                             boolean smartPhone) {
 
         double basePrice = VERIZON_BASE_PRICE;
         double reductionAmount = VERIZON_MONTHLY_REDUCTION;
@@ -46,8 +41,8 @@ public class ETFCalculator {
                 reductionAmount);
     }
 
-    public static double getTMobileETF(LocalDate startDate, LocalDate endDate,
-                                       boolean smartPhone) {
+    public static double calculateTMobileEtf(LocalDate startDate, LocalDate endDate,
+                                             boolean smartPhone) {
 
         Days days = Days.daysBetween(startDate, endDate);
 
@@ -62,8 +57,8 @@ public class ETFCalculator {
         return 50;
     }
 
-    public static double getSprintETF(LocalDate startDate, LocalDate endDate,
-                                      boolean smartPhone) {
+    public static double calculateSprintEtf(LocalDate startDate, LocalDate endDate,
+                                            boolean smartPhone) {
 
         Months months = Months.monthsBetween(startDate, endDate);
         double factor = months.getMonths();
@@ -86,8 +81,8 @@ public class ETFCalculator {
         return factor * 10;
     }
 
-    public static double getAttETF(LocalDate startDate, LocalDate endDate,
-                                   boolean smartPhone) {
+    public static double calculateAttEtf(LocalDate startDate, LocalDate endDate,
+                                         boolean smartPhone) {
 
         double basePrice = ATT_BASE_PRICE;
         double reductionAmount = ATT_MONTHLY_REDUCTION;

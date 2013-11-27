@@ -1,4 +1,4 @@
-package com.theeste.etfcalculator2;
+package com.theeste.etfcalculator;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.tz.Provider;
