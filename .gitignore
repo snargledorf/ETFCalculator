@@ -32,7 +32,5 @@ local.properties
 *.ipr
 *~
 *.swp
-/local.properties
-/.idea/workspace.xml
 
 admob_settings.xml
