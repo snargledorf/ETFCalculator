@@ -2,6 +2,7 @@ package com.theeste.etfcalculator;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
@@ -29,33 +30,40 @@ public class MainActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_main);
+
         String fullQualifiedName = FastDateTimeZoneProvider.class.getCanonicalName();
         System.setProperty("org.joda.time.DateTimeZone.Provider",
                 fullQualifiedName);
-
-        setContentView(R.layout.activity_main);
 
         setupAds();
 
         mTitle = getTitle();
 
-        setupActionBar(savedInstanceState);
+        setupActionBar();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+
         super.onSaveInstanceState(outState);
+
+        // Save the current tab
         outState.putInt(CURRENT_TAB, getActionBar().getSelectedNavigationIndex());
     }
 
-    private void setupActionBar(Bundle savedInstanceState) {
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        int selectedTab = savedInstanceState.getInt(CURRENT_TAB, 0);
+        selectTab(selectedTab);
+    }
+
+    private void setupActionBar() {
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             setupActionBarTabs();
-            if (savedInstanceState != null) {
-                int selectedTab = savedInstanceState.getInt(CURRENT_TAB, 0);
-                selectTab(selectedTab);
-            }
             actionBar.setTitle(mTitle);
         }
     }
@@ -132,12 +140,8 @@ public class MainActivity extends Activity implements
 
     @Override
     public void addDevice() {
-        AddDeviceFragment addDeviceFragment = new AddDeviceFragment();
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, addDeviceFragment)
-                .addToBackStack(null)
-                .commit();
+        Intent addDeviceIntent = new Intent(this, AddDeviceActivity.class);
+        startActivity(addDeviceIntent);
     }
 
     @Override
