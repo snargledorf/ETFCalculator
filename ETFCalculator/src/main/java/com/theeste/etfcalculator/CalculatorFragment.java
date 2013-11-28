@@ -27,13 +27,11 @@ public class CalculatorFragment extends Fragment {
     private static final String CONTRACT_END_DATE = "contract_end_date";
     private static final String SELECTED_CARRIER_POSITION = "selected_carrier_position";
 
-    private LocalDate mTodaysDate;
-
     private final Carrier[] mCarriers = new Carrier[]{
-            new Carrier.Att(),
-            new Carrier.Verizon(),
-            new Carrier.Sprint(),
-            new Carrier.TMobile()
+        Carrier.CARRIER_ATT,
+        Carrier.CARRIER_VERIZON,
+        Carrier.CARRIER_SPRINT,
+        Carrier.CARRIER_TMOBILE
     };
 
     private int mSelectedCarrier;
@@ -53,10 +51,8 @@ public class CalculatorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTodaysDate = LocalDate.now();
-
         if (savedInstanceState == null) {
-            mContractEndDate = mTodaysDate;
+            mContractEndDate = LocalDate.now();
             return;
         }
 
@@ -184,7 +180,7 @@ public class CalculatorFragment extends Fragment {
 
     private void updateETF() {
         Carrier selectedCarrier = mCarriers[mSelectedCarrier];
-        double etf = selectedCarrier.calculateEtf(mTodaysDate, mContractEndDate, mSmartphone);
+        double etf = selectedCarrier.calculateEtf(mContractEndDate, mSmartphone);
         mETFLabel.setText(String.format("$%.2f", etf));
     }
 

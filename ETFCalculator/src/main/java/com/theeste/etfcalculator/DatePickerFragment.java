@@ -19,9 +19,10 @@ public class DatePickerFragment
         extends DialogFragment
         implements DatePicker.OnDateChangedListener {
 
-    private final int mYear;
-    private final int mMonth;
-    private final int mDay;
+    private static final String YEAR = "year";
+    private static final String MONTH = "month";
+    private static final String DAY = "day";
+
     private String mTitle;
 
     public String getTitle() {
@@ -35,13 +36,13 @@ public class DatePickerFragment
     private OnDateChangeListener mOnDateChangeListener;
 
     public static DatePickerFragment newInstance(int year, int month, int day) {
-        return new DatePickerFragment(year, month, day);
-    }
-
-    private DatePickerFragment(int year, int month, int day) {
-        mYear = year;
-        mMonth = month;
-        mDay = day;
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        Bundle args = new Bundle();
+        args.putInt(YEAR, year);
+        args.putInt(MONTH, month);
+        args.putInt(DAY, day);
+        datePickerFragment.setArguments(args);
+        return datePickerFragment;
     }
 
     @Override
@@ -56,6 +57,10 @@ public class DatePickerFragment
         View view;
         DatePicker datePicker;
         DatePicker.OnDateChangedListener onDateChangedListener;
+        Bundle args = getArguments();
+        int year = args.getInt(YEAR);
+        int month = args.getInt(MONTH);
+        int day = args.getInt(DAY);
 
         // If this fragment is being displayed as a dialog
         // then use the dialog layout, otherwise just return a DatePicker
@@ -95,7 +100,8 @@ public class DatePickerFragment
             onDateChangedListener = this;
         }
 
-        datePicker.init(mYear, mMonth, mDay, onDateChangedListener);
+        datePicker.setCalendarViewShown(false);
+        datePicker.init(year, month, day, onDateChangedListener);
 
         return view;
     }
