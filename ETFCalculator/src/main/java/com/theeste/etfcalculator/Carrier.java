@@ -162,15 +162,15 @@ public abstract class Carrier {
                                            double basePrice,
                                            double reductionAmount) {
 
-        endDate = endDate.minusDays(1); // Compensate for the first month
         Months monthsLeftOnContract = Months.monthsBetween(LocalDate.now(), endDate);
 
-        if (monthsLeftOnContract.getMonths() <= 0)
+        if (monthsLeftOnContract.getMonths() < 0)
             return 0;
 
         int monthsIntoContract = Months.TWELVE
                 .multipliedBy(2)
                 .minus(monthsLeftOnContract)
+                .minus(1) // Compensate for the first month
                 .getMonths();
 
         if (monthsIntoContract < 0)
