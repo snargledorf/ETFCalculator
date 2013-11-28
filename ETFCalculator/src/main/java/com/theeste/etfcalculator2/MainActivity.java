@@ -158,7 +158,7 @@ public class MainActivity extends Activity implements
         AdRequest adRequest = new AdRequest();
 
         // Get the list of test devices for the AdRequest
-        String[] testDeviceIDs = getResources().getStringArray(R.array.adbmob_test_devices);
+        String[] testDeviceIDs = getResources().getStringArray(R.array.admob_test_devices);
         List<String> testDeviceIDList = Arrays.asList(testDeviceIDs);
         Set<String> testDeviceSet = new HashSet<String>(testDeviceIDList);
         adRequest.setTestDevices(testDeviceSet);
