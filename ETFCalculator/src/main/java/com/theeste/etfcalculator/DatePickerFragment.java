@@ -15,8 +15,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 
-public class DatePickerFragment
-        extends DialogFragment
+import org.joda.time.LocalDate;
+
+public class DatePickerFragment extends DialogFragment
         implements DatePicker.OnDateChangedListener {
 
     private static final String YEAR = "year";
@@ -57,10 +58,22 @@ public class DatePickerFragment
         View view;
         DatePicker datePicker;
         DatePicker.OnDateChangedListener onDateChangedListener;
+
+        int year;
+        int month;
+        int day;
+
         Bundle args = getArguments();
-        int year = args.getInt(YEAR);
-        int month = args.getInt(MONTH);
-        int day = args.getInt(DAY);
+        if (args != null) {
+            year = args.getInt(YEAR);
+            month = args.getInt(MONTH);
+            day = args.getInt(DAY);
+        } else {
+            LocalDate ld = LocalDate.now();
+            year = ld.getYear();
+            month = ld.getMonthOfYear();
+            day = ld.getDayOfMonth();
+        }
 
         // If this fragment is being displayed as a dialog
         // then use the dialog layout, otherwise just return a DatePicker
