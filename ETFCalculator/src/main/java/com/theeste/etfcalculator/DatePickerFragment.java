@@ -65,7 +65,7 @@ public class DatePickerFragment
         // If this fragment is being displayed as a dialog
         // then use the dialog layout, otherwise just return a DatePicker
         if (getShowsDialog()) {
-            view = inflater.inflate(R.layout.date_picker_dialog, container, false);
+            view = inflater.inflate(R.layout.fragment_date_picker_dialog, container, false);
             datePicker = (DatePicker) view.findViewById(R.id.datePicker);
 
             // We only want the date to update once the user dismisses the dialog
@@ -93,8 +93,8 @@ public class DatePickerFragment
                 }
             });
         } else {
-            datePicker = new DatePicker(getActivity());
-            view = datePicker;
+            view = inflater.inflate(R.layout.fragment_date_picker, container, false);
+            datePicker = (DatePicker)view;
 
             // Update the date as the user changes dates
             onDateChangedListener = this;
