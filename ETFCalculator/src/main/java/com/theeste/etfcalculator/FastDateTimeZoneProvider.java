@@ -13,6 +13,12 @@ import java.util.TimeZone;
  * Created by Ryan on 11/23/13.
  */
 public class FastDateTimeZoneProvider implements Provider {
+
+    public static void init() {
+        System.setProperty("org.joda.time.DateTimeZone.Provider",
+                FastDateTimeZoneProvider.class.getCanonicalName());
+    }
+
     public static final Set<String> AVAILABLE_IDS = new HashSet<String>();
 
     static {

@@ -22,15 +22,15 @@ public class MainActivity extends FragmentActivity implements
 
     private CharSequence mTitle;
 
+    static {
+        FastDateTimeZoneProvider.init();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        String fullQualifiedName = FastDateTimeZoneProvider.class.getCanonicalName();
-        System.setProperty("org.joda.time.DateTimeZone.Provider",
-                fullQualifiedName);
 
         setupAds();
 
