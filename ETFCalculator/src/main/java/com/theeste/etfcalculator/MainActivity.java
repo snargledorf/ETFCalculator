@@ -1,9 +1,10 @@
 package com.theeste.etfcalculator;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.widget.FrameLayout;
 
 import com.google.ads.AdRequest;
@@ -15,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends Activity implements
+public class MainActivity extends FragmentActivity implements
         DatePickerFragment.OnDateChangeListener,
         CalculatorFragment.CalculatorFragmentCallbacks {
 
@@ -38,10 +39,13 @@ public class MainActivity extends Activity implements
         setupActionBar();
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(mTitle);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(mTitle);
+            }
         }
     }
 
@@ -67,7 +71,7 @@ public class MainActivity extends Activity implements
     @Override
     public void onDateChanged(int year, int month, int day) {
         CalculatorFragment calculatorFragment =
-                (CalculatorFragment) getFragmentManager().findFragmentByTag(CalculatorFragment.TAG);
+                (CalculatorFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_calculator);
         if (calculatorFragment == null)
             return;
         calculatorFragment.setContractEndDate(year, month, day);
@@ -77,6 +81,6 @@ public class MainActivity extends Activity implements
     public void setContractEndDateButtonClicked(int year, int month, int day) {
         DatePickerFragment datePickerFragment = DatePickerFragment.newInstance(year, month, day);
         datePickerFragment.setTitle("Contract End Date");
-        datePickerFragment.show(getFragmentManager(), "date_picker");
+        datePickerFragment.show(getSupportFragmentManager(), "date_picker");
     }
 }
