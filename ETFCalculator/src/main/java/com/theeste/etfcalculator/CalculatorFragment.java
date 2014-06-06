@@ -25,16 +25,9 @@ public class CalculatorFragment extends Fragment {
 
     private static final String SMARTPHONE_TOGGLE_STATE = "smartphone";
     private static final String CONTRACT_END_DATE = "contract_end_date";
-    private static final String SELECTED_CARRIER_POSITION = "selected_carrier_position";
+    private static final String SELECTED_CARRIER = "selected_carrier_position";
 
-    private final Carrier[] mCarriers = new Carrier[]{
-        Carrier.CARRIER_ATT,
-        Carrier.CARRIER_VERIZON,
-        Carrier.CARRIER_SPRINT,
-        Carrier.CARRIER_TMOBILE
-    };
-
-    private int mSelectedCarrier;
+    private Carrier mSelectedCarrier;
     private boolean mSmartphone;
     private Button mContactEndDateButton;
     private TextView mETFLabel;
@@ -60,7 +53,7 @@ public class CalculatorFragment extends Fragment {
         mContractEndDate = LocalDate.parse(contractEndDateString);
 
         mSmartphone = savedInstanceState.getBoolean(SMARTPHONE_TOGGLE_STATE);
-        mSelectedCarrier = savedInstanceState.getInt(SELECTED_CARRIER_POSITION);
+        mSelectedCarrier = Carrier.values()[savedInstanceState.getInt(SELECTED_CARRIER)];
     }
 
     @Override
@@ -80,7 +73,7 @@ public class CalculatorFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(SELECTED_CARRIER_POSITION, mSelectedCarrier);
+        outState.putInt(SELECTED_CARRIER, mSelectedCarrier.ordinal());
         outState.putBoolean(SMARTPHONE_TOGGLE_STATE, mSmartphone);
         outState.putString(CONTRACT_END_DATE, mContractEndDate.toString());
     }
@@ -126,19 +119,18 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setupCarrierSpinner(View view) {
-        Spinner mCarrierSpinner = (Spinner) view.findViewById(R.id.carrier_spinner);
+        final Spinner mCarrierSpinner = (Spinner) view.findViewById(R.id.carrier_spinner);
 
         ArrayAdapter<Carrier> mCarrierAdapter = new ArrayAdapter<Carrier>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item,
-                mCarriers);
+                Carrier.values());
 
         mCarrierSpinner.setAdapter(mCarrierAdapter);
-        mCarrierSpinner.setSelection(mSelectedCarrier);
 
         mCarrierSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mSelectedCarrier = i;
+                mSelectedCarrier = ((Carrier)mCarrierSpinner.getSelectedItem());
                 updateETF();
             }
 
@@ -179,8 +171,7 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void updateETF() {
-        Carrier selectedCarrier = mCarriers[mSelectedCarrier];
-        double etf = selectedCarrier.calculateEtf(mContractEndDate, mSmartphone);
+        double etf = mSelectedCarrier.calculateEtf(mContractEndDate, mSmartphone);
         mETFLabel.setText(String.format("$%.2f", etf));
     }
 
