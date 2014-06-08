@@ -46,15 +46,6 @@ public class CalculatorFragment extends Fragment {
 
         if (savedInstanceState == null) {
             mContractEndDate = LocalDate.now();
-
-            getChildFragmentManager().beginTransaction()
-                    .add(R.id.datepicker_fragment_container,
-                            DatePickerFragment.newInstance(
-                                    mContractEndDate.getYear(),
-                                    mContractEndDate.getMonthOfYear(),
-                                    mContractEndDate.getDayOfMonth()))
-                    .commit();
-
             return;
         }
 
@@ -72,10 +63,27 @@ public class CalculatorFragment extends Fragment {
 
         setupCarrierSpinner(view);
         setupSmartPhoneToggle(view);
-        setupContractEndButton(view);
         setupETFLabel(view);
 
+        if (view.findViewById(R.id.datepicker_fragment_container) != null) {
+            if (savedInstanceState == null) {
+                setupDatePickerFragment();
+            }
+        } else {
+            setupContractEndButton(view);
+        }
+
         return view;
+    }
+
+    private void setupDatePickerFragment() {
+        getChildFragmentManager().beginTransaction()
+                .add(R.id.datepicker_fragment_container,
+                        DatePickerFragment.newInstance(
+                                mContractEndDate.getYear(),
+                                mContractEndDate.getMonthOfYear(),
+                                mContractEndDate.getDayOfMonth()))
+                .commit();
     }
 
     @Override
