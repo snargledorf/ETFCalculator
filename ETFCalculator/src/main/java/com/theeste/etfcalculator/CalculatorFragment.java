@@ -158,7 +158,7 @@ public class CalculatorFragment extends Fragment {
     public void setContractEndDate(int year, int month, int day) {
         setContractEndDate(new LocalDate(
                 year,
-                month + 1, // Android uses 0 based months
+                month, // Android uses 0 based months
                 day));
     }
 

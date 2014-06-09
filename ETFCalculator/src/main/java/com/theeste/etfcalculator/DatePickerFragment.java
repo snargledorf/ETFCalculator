@@ -58,7 +58,7 @@ public class DatePickerFragment extends DialogFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view;
-        DatePicker datePicker;
+        DatePicker dp;
         DatePicker.OnDateChangedListener onDateChangedListener;
 
         int year;
@@ -81,7 +81,7 @@ public class DatePickerFragment extends DialogFragment
         // then use the dialog layout, otherwise just return a DatePicker
         if (getShowsDialog()) {
             view = inflater.inflate(R.layout.fragment_date_picker_dialog, container, false);
-            datePicker = (DatePicker) view.findViewById(R.id.datePicker);
+            dp = (DatePicker) view.findViewById(R.id.datePicker);
 
             // We only want the date to update once the user dismisses the dialog
             onDateChangedListener = null;
@@ -92,38 +92,43 @@ public class DatePickerFragment extends DialogFragment
                 getDialog().setTitle(mTitle);
             }
 
-            Button okButton = (Button) view.findViewById(R.id.okButton);
-            okButton.setText(getString(R.string.ok));
-            okButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DatePicker datePicker1 = (DatePicker) getDialog().findViewById(R.id.datePicker);
-                    if (datePicker1 != null) {
-                        int year = datePicker1.getYear();
-                        int month = datePicker1.getMonth();
-                        int day = datePicker1.getDayOfMonth();
-                        mOnDateChangeListener.onDateChanged(year, month, day);
-                    }
-                    getDialog().dismiss();
-                }
-            });
+            setupOkButton(view);
         } else {
             view = inflater.inflate(R.layout.fragment_date_picker, container, false);
-            datePicker = (DatePicker)view;
+            dp = (DatePicker) view;
 
             // Update the date as the user changes dates
             onDateChangedListener = this;
         }
 
-        datePicker.setCalendarViewShown(false);
-        datePicker.init(year, month, day, onDateChangedListener);
+        dp.setCalendarViewShown(false);
+        dp.init(year, month, day, onDateChangedListener);
 
         return view;
     }
 
     @Override
     public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
-        mOnDateChangeListener.onDateChanged(year, month, day);
+        // Android DatePicker month is 0 based
+        mOnDateChangeListener.onDateChanged(year, month + 1, day);
+    }
+
+    public void setupOkButton(View view) {
+        Button okButton = (Button) view.findViewById(R.id.okButton);
+        okButton.setText(getString(R.string.ok));
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePicker dp = (DatePicker) getDialog().findViewById(R.id.datePicker);
+                if (dp != null) {
+                    int year = dp.getYear();
+                    int month = dp.getMonth() + 1; // Android DatePicker month is 0 based
+                    int day = dp.getDayOfMonth();
+                    mOnDateChangeListener.onDateChanged(year, month, day);
+                }
+                getDialog().dismiss();
+            }
+        });
     }
 
     public static interface OnDateChangeListener {
