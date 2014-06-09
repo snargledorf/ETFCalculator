@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -31,7 +29,7 @@ public class CalculatorFragment extends Fragment {
     private TextView mETFLabel;
 
     private Carrier mSelectedCarrier;
-    private boolean mSmartphone;
+    private boolean mIsSmartphone;
     private CalculatorFragmentCallbacks mCallbacks;
     private LocalDate mContractEndDate;
     private TextView mContractEndDateLabel;
@@ -54,7 +52,7 @@ public class CalculatorFragment extends Fragment {
         String contractEndDateString = savedInstanceState.getString(CONTRACT_END_DATE);
         mContractEndDate = LocalDate.parse(contractEndDateString);
 
-        mSmartphone = savedInstanceState.getBoolean(SMARTPHONE_TOGGLE_STATE);
+        mIsSmartphone = savedInstanceState.getBoolean(SMARTPHONE_TOGGLE_STATE);
         mSelectedCarrier = Carrier.values()[savedInstanceState.getInt(SELECTED_CARRIER)];
     }
 
@@ -67,7 +65,7 @@ public class CalculatorFragment extends Fragment {
         setupSmartPhoneToggle(view);
         setupETFLabel(view);
 
-        mContractEndDateLabel = (TextView)view.findViewById(R.id.txt_contract_end_date);
+        mContractEndDateLabel = (TextView)view.findViewById(R.id.label_contract_end_date);
 
         updateContractEndDateLabel();
 
@@ -96,17 +94,17 @@ public class CalculatorFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SELECTED_CARRIER, mSelectedCarrier.ordinal());
-        outState.putBoolean(SMARTPHONE_TOGGLE_STATE, mSmartphone);
+        outState.putBoolean(SMARTPHONE_TOGGLE_STATE, mIsSmartphone);
         outState.putString(CONTRACT_END_DATE, mContractEndDate.toString());
     }
 
     private void setupETFLabel(View view) {
-        mETFLabel = (TextView) view.findViewById(R.id.etf_label);
+        mETFLabel = (TextView) view.findViewById(R.id.label_etf);
     }
 
     private void setupContractEndButton(View view) {
 
-        View contactEndDateButton = view.findViewById(R.id.contract_end_date_button);
+        View contactEndDateButton = view.findViewById(R.id.button_contract_end_date);
 
         if (contactEndDateButton == null)
             return;
@@ -123,19 +121,19 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setupCarrierSpinner(View view) {
-        final Spinner mCarrierSpinner = (Spinner) view.findViewById(R.id.carrier_spinner);
+        final Spinner carrierSpinner = (Spinner) view.findViewById(R.id.spinner_carrier);
 
-        ArrayAdapter<Carrier> mCarrierAdapter = new ArrayAdapter<Carrier>(getActivity(),
+        ArrayAdapter<Carrier> carrierAdapter = new ArrayAdapter<Carrier>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item,
                 Carrier.values());
 
-        mCarrierSpinner.setAdapter(mCarrierAdapter);
+        carrierSpinner.setAdapter(carrierAdapter);
 
-        mCarrierSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        carrierSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mSelectedCarrier = ((Carrier)mCarrierSpinner.getSelectedItem());
-                updateETF();
+                mSelectedCarrier = ((Carrier) carrierSpinner.getSelectedItem());
+                updateETFLabel();
             }
 
             @Override
@@ -146,15 +144,15 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setupSmartPhoneToggle(View view) {
-        ToggleButton mSmartphoneToggle = (ToggleButton) view.findViewById(R.id.smartphone_toggle);
+        ToggleButton smartPhoneToggle = (ToggleButton) view.findViewById(R.id.toggle_smartphone);
 
-        mSmartphoneToggle.setChecked(mSmartphone);
+        smartPhoneToggle.setChecked(mIsSmartphone);
 
-        mSmartphoneToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        smartPhoneToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mSmartphone = b;
-                updateETF();
+                mIsSmartphone = b;
+                updateETFLabel();
             }
         });
     }
@@ -169,7 +167,7 @@ public class CalculatorFragment extends Fragment {
     private void setContractEndDate(LocalDate date) {
         mContractEndDate = date;
         updateContractEndDateLabel();
-        updateETF();
+        updateETFLabel();
     }
 
     private void updateContractEndDateLabel() {
@@ -178,8 +176,11 @@ public class CalculatorFragment extends Fragment {
         }
     }
 
-    private void updateETF() {
-        double etf = mSelectedCarrier.calculateEtf(mContractEndDate, mSmartphone);
+    private void updateETFLabel() {
+        if (mContractEndDate == null || mETFLabel == null)
+            return;
+
+        double etf = mSelectedCarrier.calculateEtf(mContractEndDate, mIsSmartphone);
         mETFLabel.setText(String.format("$%.2f", etf));
     }
 

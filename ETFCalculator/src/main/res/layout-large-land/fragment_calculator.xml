@@ -6,7 +6,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_horizontal"
-    android:weightSum="1"
     android:baselineAligned="false">
 
     <LinearLayout
@@ -14,38 +13,52 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center_horizontal"
-        android:layout_weight=".5"
-        android:id="@+id/linearLayout"
-        android:layout_marginTop="16dp">
+        android:layout_weight="1"
+        android:id="@+id/linearLayout">
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@id/carrier_spinner"
+            android:id="@id/spinner_carrier"
             android:spinnerMode="dialog"
-            android:prompt="@string/carrier_selection_prompt" />
+            android:prompt="@string/carrier_selection_prompt"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
 
-        <ToggleButton
-            android:id="@id/smartphone_toggle"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/smartphone_toggle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
+
+        <ToggleButton
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:id="@+id/toggle_smartphone"
+            android:textOn=""
+            android:textOff=""
+            android:background="@drawable/button_android_phone_background"
             android:checked="false"
-            android:textOn="@string/smartphone_toggle"
-            android:textOff="@string/smartphone_toggle" />
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/contract_end_date_label"
-            android:id="@+id/textView"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp" />
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/datepicker_fragment_container" />
+            android:id="@+id/datepicker_fragment_container"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp" />
 
     </LinearLayout>
 
@@ -53,22 +66,22 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight=".5"
-        android:gravity="center_horizontal"
-        android:id="@+id/linearLayout2">
+        android:layout_weight="1"
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/early_termination_fee_label"
-            android:layout_marginTop="35dp" />
+            android:layout_marginBottom="4dp"
+            android:text="@string/early_termination_fee_label"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@id/etf_label"
-            android:text="@string/etf_default_text" />
+            android:id="@id/label_etf"
+            android:text="@string/etf_default_text"
+            android:layout_marginTop="4dp" />
     </LinearLayout>
 </LinearLayout>
