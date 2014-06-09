@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -27,12 +28,13 @@ public class CalculatorFragment extends Fragment {
     private static final String CONTRACT_END_DATE = "contract_end_date";
     private static final String SELECTED_CARRIER = "selected_carrier_position";
 
+    private TextView mETFLabel;
+
     private Carrier mSelectedCarrier;
     private boolean mSmartphone;
-    private Button mContactEndDateButton;
-    private TextView mETFLabel;
     private CalculatorFragmentCallbacks mCallbacks;
     private LocalDate mContractEndDate;
+    private TextView mContractEndDateLabel;
 
     @Override
     public void onAttach(Activity activity) {
@@ -64,6 +66,10 @@ public class CalculatorFragment extends Fragment {
         setupCarrierSpinner(view);
         setupSmartPhoneToggle(view);
         setupETFLabel(view);
+
+        mContractEndDateLabel = (TextView)view.findViewById(R.id.txt_contract_end_date);
+
+        updateContractEndDateLabel();
 
         if (view.findViewById(R.id.datepicker_fragment_container) != null) {
             if (savedInstanceState == null) {
@@ -100,14 +106,12 @@ public class CalculatorFragment extends Fragment {
 
     private void setupContractEndButton(View view) {
 
-        mContactEndDateButton = (Button) view.findViewById(R.id.contract_end_date_button);
+        View contactEndDateButton = view.findViewById(R.id.contract_end_date_button);
 
-        if (mContactEndDateButton == null)
+        if (contactEndDateButton == null)
             return;
 
-        mContactEndDateButton.setText(mContractEndDate.toString());
-
-        mContactEndDateButton.setOnClickListener(new View.OnClickListener() {
+        contactEndDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCallbacks.setContractEndDateButtonClicked(
@@ -164,10 +168,14 @@ public class CalculatorFragment extends Fragment {
 
     private void setContractEndDate(LocalDate date) {
         mContractEndDate = date;
-        if (mContactEndDateButton != null) {
-            mContactEndDateButton.setText(mContractEndDate.toString());
-        }
+        updateContractEndDateLabel();
         updateETF();
+    }
+
+    private void updateContractEndDateLabel() {
+        if (mContractEndDateLabel != null && mContractEndDate != null) {
+            mContractEndDateLabel.setText(mContractEndDate.toString().replace('-', '/'));
+        }
     }
 
     private void updateETF() {
