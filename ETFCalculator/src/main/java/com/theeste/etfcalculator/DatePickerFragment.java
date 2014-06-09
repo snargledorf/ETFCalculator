@@ -26,10 +26,6 @@ public class DatePickerFragment extends DialogFragment
 
     private String mTitle;
 
-    public String getTitle() {
-        return mTitle;
-    }
-
     public void setTitle(String title) {
         mTitle = title;
     }
