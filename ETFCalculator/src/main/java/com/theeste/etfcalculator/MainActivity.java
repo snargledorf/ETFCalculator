@@ -5,16 +5,13 @@ import android.app.ActionBar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.FrameLayout;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.google.android.gms.ads.*;
 
 public class MainActivity extends FragmentActivity implements
         DatePickerFragment.OnDateChangeListener,
@@ -50,22 +47,12 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void setupAds() {
-        // Create the AdRequest
-        AdRequest adRequest = new AdRequest();
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice(getString(R.string.nexus5_test_device_id))
+                .build();
 
-        // Get the list of test devices for the AdRequest
-        String[] testDeviceIDs = getResources().getStringArray(R.array.admob_test_devices);
-        List<String> testDeviceIDList = Arrays.asList(testDeviceIDs);
-        Set<String> testDeviceSet = new HashSet<String>(testDeviceIDList);
-        adRequest.setTestDevices(testDeviceSet);
-
-        // Create the AdView
-        AdView adView = new AdView(this, AdSize.SMART_BANNER, getString(R.string.admob_id));
+        AdView adView = (AdView)findViewById(R.id.ad_view);
         adView.loadAd(adRequest);
-
-        // Add the AdView to the Ad FrameLayout
-        FrameLayout adFrame = (FrameLayout) findViewById(R.id.ad_frame);
-        adFrame.addView(adView);
     }
 
     @Override
