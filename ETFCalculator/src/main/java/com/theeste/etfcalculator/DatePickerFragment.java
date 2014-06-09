@@ -101,7 +101,6 @@ public class DatePickerFragment extends DialogFragment
             onDateChangedListener = this;
         }
 
-        dp.setCalendarViewShown(false);
         dp.init(year, month, day, onDateChangedListener);
 
         return view;
