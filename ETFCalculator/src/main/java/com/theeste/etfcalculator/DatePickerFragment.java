@@ -49,6 +49,12 @@ public class DatePickerFragment extends DialogFragment
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnDateChangeListener = null;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view;
