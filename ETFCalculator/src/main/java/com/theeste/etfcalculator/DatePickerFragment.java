@@ -23,6 +23,7 @@ public class DatePickerFragment extends DialogFragment
     private static final String YEAR = "year";
     private static final String MONTH = "month";
     private static final String DAY = "day";
+    private static final String TITLE = "title";
 
     private String mTitle;
 
@@ -55,6 +56,12 @@ public class DatePickerFragment extends DialogFragment
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(TITLE, mTitle);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view;
@@ -75,6 +82,10 @@ public class DatePickerFragment extends DialogFragment
             year = ld.getYear();
             month = ld.getMonthOfYear();
             day = ld.getDayOfMonth();
+        }
+
+        if (savedInstanceState != null) {
+            mTitle = savedInstanceState.getString(TITLE);
         }
 
         // If this fragment is being displayed as a dialog
