@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,12 +28,13 @@ public class CalculatorFragment extends Fragment {
     private static final String SELECTED_CARRIER = "selected_carrier_position";
 
     private TextView mETFLabel;
+    private Button mContractEndDateButton;
 
     private Carrier mSelectedCarrier;
     private boolean mIsSmartphone;
-    private CalculatorFragmentCallbacks mCallbacks;
     private LocalDate mContractEndDate;
-    private TextView mContractEndDateLabel;
+
+    private CalculatorFragmentCallbacks mCallbacks;
 
     @Override
     public void onAttach(Activity activity) {
@@ -64,30 +66,9 @@ public class CalculatorFragment extends Fragment {
         setupCarrierSpinner(view);
         setupSmartPhoneToggle(view);
         setupETFLabel(view);
-
-        mContractEndDateLabel = (TextView)view.findViewById(R.id.label_contract_end_date);
-
-        updateContractEndDateLabel();
-
-        if (view.findViewById(R.id.datepicker_fragment_container) != null) {
-            if (savedInstanceState == null) {
-                setupDatePickerFragment();
-            }
-        } else {
-            setupContractEndButton(view);
-        }
+        setupContractEndDateButton(view);
 
         return view;
-    }
-
-    private void setupDatePickerFragment() {
-        getChildFragmentManager().beginTransaction()
-                .add(R.id.datepicker_fragment_container,
-                        DatePickerFragment.newInstance(
-                                mContractEndDate.getYear(),
-                                mContractEndDate.getMonthOfYear(),
-                                mContractEndDate.getDayOfMonth()))
-                .commit();
     }
 
     @Override
@@ -102,30 +83,32 @@ public class CalculatorFragment extends Fragment {
         mETFLabel = (TextView) view.findViewById(R.id.label_etf);
     }
 
-    private void setupContractEndButton(View view) {
+    private void setupContractEndDateButton(View view) {
 
-        View contactEndDateButton = view.findViewById(R.id.button_contract_end_date);
+        mContractEndDateButton = (Button)view.findViewById(R.id.button_contract_end_date);
 
-        if (contactEndDateButton == null)
+        if (mContractEndDateButton == null)
             return;
 
-        contactEndDateButton.setOnClickListener(new View.OnClickListener() {
+        mContractEndDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallbacks.setContractEndDateButtonClicked(
-                        mContractEndDate.getYear(),
-                        mContractEndDate.getMonthOfYear() - 1, // Android uses 0 based months
-                        mContractEndDate.getDayOfMonth());
+                if (mCallbacks != null) {
+                    mCallbacks.setContractEndDateButtonClicked(CalculatorFragment.this);
+                }
             }
         });
+
+        updateContractEndDateButton();
     }
 
     private void setupCarrierSpinner(View view) {
         final Spinner carrierSpinner = (Spinner) view.findViewById(R.id.spinner_carrier);
 
         ArrayAdapter<Carrier> carrierAdapter = new ArrayAdapter<Carrier>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item,
+                android.R.layout.simple_spinner_item,
                 Carrier.values());
+        carrierAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         carrierSpinner.setAdapter(carrierAdapter);
 
@@ -166,13 +149,17 @@ public class CalculatorFragment extends Fragment {
 
     private void setContractEndDate(LocalDate date) {
         mContractEndDate = date;
-        updateContractEndDateLabel();
+        updateContractEndDateButton();
         updateETFLabel();
     }
 
-    private void updateContractEndDateLabel() {
-        if (mContractEndDateLabel != null && mContractEndDate != null) {
-            mContractEndDateLabel.setText(mContractEndDate.toString().replace('-', '/'));
+    private void updateContractEndDateButton() {
+        if (mContractEndDateButton != null && mContractEndDate != null) {
+            mContractEndDateButton.setText(
+                    String.format("%s/%s/%s",
+                            mContractEndDate.getMonthOfYear(),
+                            mContractEndDate.getDayOfMonth(),
+                            mContractEndDate.getYear()));
         }
     }
 
@@ -184,7 +171,11 @@ public class CalculatorFragment extends Fragment {
         mETFLabel.setText(String.format("$%.2f", etf));
     }
 
+    public LocalDate getContractEndDate() {
+        return mContractEndDate;
+    }
+
     public interface CalculatorFragmentCallbacks {
-        void setContractEndDateButtonClicked(int year, int month, int day);
+        void setContractEndDateButtonClicked(CalculatorFragment calculatorFragment);
     }
 }

@@ -19,78 +19,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_carrier"
-            android:spinnerMode="dialog"
+            android:spinnerMode="dropdown"
             android:prompt="@string/carrier_selection_prompt"
             android:layout_marginBottom="8dp"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:baselineAligned="false">
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/smartphone_toggle"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/smartphone_toggle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
 
-                <ToggleButton
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:id="@+id/toggle_smartphone"
-                    android:textOn=""
-                    android:textOff=""
-                    android:background="@drawable/button_android_phone_background"
-                    android:checked="false"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="8dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/contract_end_date_label"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp" />
-
-                <ImageButton
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:text="@string/select_end_date"
-                    android:id="@+id/button_contract_end_date"
-                    android:src="@android:drawable/ic_menu_today"
-                    android:background="@drawable/button_background"
-                    android:padding="16dp"
-                    android:scaleType="center"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    tools:text="6/6/14"
-                    android:id="@+id/label_contract_end_date"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-        </LinearLayout>
+        <ToggleButton
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:id="@+id/toggle_smartphone"
+            android:textOn=""
+            android:textOff=""
+            android:background="@drawable/button_android_phone_background"
+            android:checked="false"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/contract_end_date_label"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/button_contract_end_date"
+            android:layout_gravity="center_horizontal"
+            style="?android:attr/spinnerStyle"
+            tools:text="6/6/14" />
     </LinearLayout>
 
     <LinearLayout
