@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import org.joda.time.LocalDate;
 
@@ -30,7 +30,7 @@ public class CalculatorFragment extends Fragment {
     private LocalDate mContractEndDate;
 
     private CalculatorFragmentCallbacks mCallbacks;
-    private ToggleViewGroupTableLayout mCarrierButtonsContainer;
+    private RadioToggleButtonGroupTableLayout mCarrierButtonsContainer;
 
     @Override
     public void onAttach(Activity activity) {
@@ -63,9 +63,7 @@ public class CalculatorFragment extends Fragment {
         setupContractEndDateButton(view);
         setupCarrierButtons(view);
 
-        if (savedInstanceState == null) {
-            view.findViewById(R.id.radio_att).performClick();
-        }
+        updateETFLabel();
 
         return view;
     }
@@ -102,11 +100,11 @@ public class CalculatorFragment extends Fragment {
 
     private void setupCarrierButtons(View view) {
         mCarrierButtonsContainer =
-                (ToggleViewGroupTableLayout)view.findViewById(R.id.carrier_buttons_container);
+                (RadioToggleButtonGroupTableLayout)view.findViewById(R.id.carrier_buttons_container);
 
-        mCarrierButtonsContainer.setOnCheckChangedListener(new ToggleViewGroupTableLayout.OnCheckedChangeListener() {
+        mCarrierButtonsContainer.setOnCheckChangedListener(new RadioToggleButtonGroupTableLayout.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChange(View view, boolean checked) {
+            public void onCheckedChanged(RadioToggleButtonGroupTableLayout view, int viewId) {
                 updateETFLabel();
             }
         });
@@ -127,7 +125,7 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setupSmartPhoneToggle(View view) {
-        ToggleButton smartPhoneToggle = (ToggleButton) view.findViewById(R.id.toggle_smartphone);
+        CheckBox smartPhoneToggle = (CheckBox) view.findViewById(R.id.checkbox_smartphone);
 
         smartPhoneToggle.setChecked(mIsSmartphone);
 

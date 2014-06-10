@@ -2,103 +2,114 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center_horizontal"
-    android:weightSum="1">
-
-    <com.theeste.etfcalculator.ToggleViewGroupTableLayout
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:gravity="center"
         android:layout_marginTop="32dp"
-        android:id="@+id/carrier_buttons_container">
-        <TableRow
-            android:gravity="center">
-            <ToggleButton
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/radio_att"
-                android:background="@drawable/rounded_button_background"
-                android:layout_margin="4dp"
-                android:textOn="@string/att"
-                android:textOff="@string/att"
-                tools:checked="true" />
-            <ToggleButton
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:textOn="@string/verizon"
-                android:textOff="@string/verizon"
-                android:id="@+id/radio_verizon"
-                android:layout_margin="4dp"
-                android:background="@drawable/rounded_button_background" />
-        </TableRow>
-        <TableRow
-            android:gravity="center">
-            <ToggleButton
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:textOn="@string/sprint"
-                android:textOff="@string/sprint"
-                android:id="@+id/radio_sprint"
-                android:layout_margin="4dp"
-                android:background="@drawable/rounded_button_background" />
+        android:layout_marginBottom="16dp">
+        <com.theeste.etfcalculator.RadioToggleButtonGroupTableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:id="@+id/carrier_buttons_container"
+            custom:defaultChecked="@+id/radio_att">
+            <TableRow
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.theeste.etfcalculator.RadioToggleButton
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_att"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:textOn="@string/att"
+                    android:textOff="@string/att"
+                    android:textSize="@dimen/button_text_size"
+                    android:background="@drawable/rounded_button_background" />
+                <com.theeste.etfcalculator.RadioToggleButton
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:textOn="@string/verizon"
+                    android:textOff="@string/verizon"
+                    android:id="@+id/radio_verizon"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:textSize="@dimen/button_text_size"
+                    android:background="@drawable/rounded_button_background" />
+            </TableRow>
+            <TableRow
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.theeste.etfcalculator.RadioToggleButton
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:textOn="@string/sprint"
+                    android:textOff="@string/sprint"
+                    android:id="@+id/radio_sprint"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="4dp"
+                    android:textSize="@dimen/button_text_size"
+                    android:background="@drawable/rounded_button_background" />
 
-            <ToggleButton
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:textOn="@string/tmobile"
-                android:textOff="@string/tmobile"
-                android:id="@+id/radio_tmobile"
-                android:layout_margin="4dp"
-                android:background="@drawable/rounded_button_background" />
-        </TableRow>
-    </com.theeste.etfcalculator.ToggleViewGroupTableLayout>
+                <com.theeste.etfcalculator.RadioToggleButton
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:textOn="@string/tmobile"
+                    android:textOff="@string/tmobile"
+                    android:id="@+id/radio_tmobile"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:textSize="@dimen/button_text_size"
+                    android:background="@drawable/rounded_button_background"  />
+            </TableRow>
+        </com.theeste.etfcalculator.RadioToggleButtonGroupTableLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/smartphone_toggle"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox_smartphone"
+            android:text="@string/smartphone_toggle"
+            android:background="@drawable/rounded_button_background"
+            android:textSize="@dimen/button_text_size"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            tools:checked="false" />
 
-    <ToggleButton
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:id="@+id/toggle_smartphone"
-        android:textOn=""
-        android:textOff=""
-        android:background="@drawable/button_android_phone_background"
-        android:checked="false"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="8dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/contract_end_date_label"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/contract_end_date_label"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="8dp"
-        android:id="@+id/button_contract_end_date"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_button_background"
-        tools:text="6/6/14" />
+        <Button
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:id="@+id/button_contract_end_date"
+            android:background="@drawable/rounded_button_background"
+            android:textSize="@dimen/button_text_size"
+            tools:text="12/30/2014" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,7 +120,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/etf_label_text_size"
             android:id="@+id/label_etf"
             android:text="@string/etf_default_text"
             android:layout_marginTop="4dp" />

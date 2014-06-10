@@ -1,11 +1,10 @@
 package com.theeste.etfcalculator;
 
-import android.app.ActionBar;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-import com.google.android.gms.ads.*;
 
 import org.joda.time.LocalDate;
 
@@ -22,10 +21,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-
-        setupAds();
     }
 
     @Override
@@ -41,15 +37,6 @@ public class MainActivity extends FragmentActivity implements
                         .findFragmentByTag(TAG_CALENDAR_DATE_PICKER);
         if (calendarDatePickerDialog != null)
             calendarDatePickerDialog.setOnDateSetListener(this);
-    }
-
-    private void setupAds() {
-        AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice(getString(R.string.nexus5_test_device_id))
-                .build();
-
-        AdView adView = (AdView)findViewById(R.id.ad_view);
-        adView.loadAd(adRequest);
     }
 
     @Override

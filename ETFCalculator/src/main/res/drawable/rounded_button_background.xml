@@ -4,7 +4,7 @@
     <item android:state_checked="true">
         <shape android:shape="rectangle">
             <corners android:radius="200dp" />
-            <solid android:color="#c1e8f7" />
+            <solid android:color="@color/semi_trans_white" />
             <padding
                 android:top="4dp"
                 android:bottom="4dp"
@@ -15,7 +15,7 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <corners android:radius="200dp" />
-            <solid android:color="#c1e8f7" />
+            <solid android:color="@color/semi_trans_white" />
             <padding
                 android:top="4dp"
                 android:bottom="4dp"
@@ -26,7 +26,9 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="200dp" />
-            <solid android:color="#00000000" />
+            <solid android:color="@color/holo_blue_light" />
+            <stroke android:color="@color/semi_trans_white"
+                android:width="1dp" />
             <padding
                 android:top="4dp"
                 android:bottom="4dp"
