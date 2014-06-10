@@ -13,15 +13,56 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:weightSum="1">
 
-        <Spinner
-            android:layout_width="wrap_content"
+        <com.theeste.etfcalculator.ToggleViewGroupTableLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner_carrier"
-            android:spinnerMode="dropdown"
-            android:prompt="@string/carrier_selection_prompt"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:id="@+id/carrier_buttons_container">
+            <TableRow
+                android:gravity="center">
+                <ToggleButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_att"
+                    android:background="@drawable/rounded_button_background"
+                    android:layout_margin="4dp"
+                    android:textOn="@string/att"
+                    android:textOff="@string/att"
+                    tools:checked="true"/>
+                <ToggleButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textOn="@string/verizon"
+                    android:textOff="@string/verizon"
+                    android:id="@+id/radio_verizon"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rounded_button_background" />
+            </TableRow>
+            <TableRow
+                android:gravity="center">
+                <ToggleButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textOn="@string/sprint"
+                    android:textOff="@string/sprint"
+                    android:id="@+id/radio_sprint"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rounded_button_background" />
+
+                <ToggleButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textOn="@string/tmobile"
+                    android:textOff="@string/tmobile"
+                    android:id="@+id/radio_tmobile"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rounded_button_background" />
+            </TableRow>
+        </com.theeste.etfcalculator.ToggleViewGroupTableLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,8 +97,9 @@
             android:layout_marginBottom="8dp"
             android:id="@+id/button_contract_end_date"
             android:layout_gravity="center_horizontal"
-            style="?android:attr/spinnerStyle"
+            android:background="@drawable/rounded_button_background"
             tools:text="6/6/14" />
+
     </LinearLayout>
 
     <LinearLayout

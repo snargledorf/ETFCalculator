@@ -6,11 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -25,16 +22,15 @@ public class CalculatorFragment extends Fragment {
 
     private static final String SMARTPHONE_TOGGLE_STATE = "smartphone";
     private static final String CONTRACT_END_DATE = "contract_end_date";
-    private static final String SELECTED_CARRIER = "selected_carrier_position";
 
     private TextView mETFLabel;
     private Button mContractEndDateButton;
 
-    private Carrier mSelectedCarrier;
     private boolean mIsSmartphone;
     private LocalDate mContractEndDate;
 
     private CalculatorFragmentCallbacks mCallbacks;
+    private ToggleViewGroupTableLayout mCarrierButtonsContainer;
 
     @Override
     public void onAttach(Activity activity) {
@@ -55,7 +51,6 @@ public class CalculatorFragment extends Fragment {
         mContractEndDate = LocalDate.parse(contractEndDateString);
 
         mIsSmartphone = savedInstanceState.getBoolean(SMARTPHONE_TOGGLE_STATE);
-        mSelectedCarrier = Carrier.values()[savedInstanceState.getInt(SELECTED_CARRIER)];
     }
 
     @Override
@@ -63,10 +58,14 @@ public class CalculatorFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calculator, container, false);
 
-        setupCarrierSpinner(view);
         setupSmartPhoneToggle(view);
         setupETFLabel(view);
         setupContractEndDateButton(view);
+        setupCarrierButtons(view);
+
+        if (savedInstanceState == null) {
+            view.findViewById(R.id.radio_att).performClick();
+        }
 
         return view;
     }
@@ -74,7 +73,6 @@ public class CalculatorFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(SELECTED_CARRIER, mSelectedCarrier.ordinal());
         outState.putBoolean(SMARTPHONE_TOGGLE_STATE, mIsSmartphone);
         outState.putString(CONTRACT_END_DATE, mContractEndDate.toString());
     }
@@ -102,28 +100,30 @@ public class CalculatorFragment extends Fragment {
         updateContractEndDateButton();
     }
 
-    private void setupCarrierSpinner(View view) {
-        final Spinner carrierSpinner = (Spinner) view.findViewById(R.id.spinner_carrier);
+    private void setupCarrierButtons(View view) {
+        mCarrierButtonsContainer =
+                (ToggleViewGroupTableLayout)view.findViewById(R.id.carrier_buttons_container);
 
-        ArrayAdapter<Carrier> carrierAdapter = new ArrayAdapter<Carrier>(getActivity(),
-                android.R.layout.simple_spinner_item,
-                Carrier.values());
-        carrierAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        carrierSpinner.setAdapter(carrierAdapter);
-
-        carrierSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mCarrierButtonsContainer.setOnCheckChangedListener(new ToggleViewGroupTableLayout.OnCheckedChangeListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mSelectedCarrier = ((Carrier) carrierSpinner.getSelectedItem());
+            public void onCheckedChange(View view, boolean checked) {
                 updateETFLabel();
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // Nothing to do here
-            }
         });
+    }
+
+    private Carrier getSelectedCarrier() {
+        switch (mCarrierButtonsContainer.getCheckedViewId()) {
+            case R.id.radio_att:
+                return Carrier.ATT;
+            case R.id.radio_verizon:
+                return Carrier.VERIZON;
+            case R.id.radio_sprint:
+                return Carrier.SPRINT;
+            case R.id.radio_tmobile:
+                return Carrier.TMOBILE;
+        }
+        return null;
     }
 
     private void setupSmartPhoneToggle(View view) {
@@ -164,10 +164,11 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void updateETFLabel() {
-        if (mContractEndDate == null || mETFLabel == null)
+        if (getContractEndDate() == null || mETFLabel == null || getSelectedCarrier() == null)
             return;
 
-        double etf = mSelectedCarrier.calculateEtf(mContractEndDate, mIsSmartphone);
+        Carrier selectedCarrier = getSelectedCarrier();
+        double etf = selectedCarrier.calculateEtf(getContractEndDate(), mIsSmartphone);
         mETFLabel.setText(String.format("$%.2f", etf));
     }
 
