@@ -79,26 +79,31 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_gravity="center_horizontal">
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/an_app_by"
-                android:layout_gravity="center_horizontal"/>
+                android:text="@string/an_app_by"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_theeste"
                 android:id="@+id/logo_the_este"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:id="@+id/label_build_info"
+                tools:text="v. 2.0"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
