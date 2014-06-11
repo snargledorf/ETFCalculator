@@ -63,10 +63,12 @@ public class RadioToggleButtonGroupTableLayout extends TableLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mIgnoreCheckChanged = true;
-        setCheckedStateForView(mCheckedId, true);
-        mIgnoreCheckChanged = false;
-        setCheckedId(mCheckedId);
+        if (mCheckedId != -1) {
+            mIgnoreCheckChanged = true;
+            setCheckedStateForView(mCheckedId, true);
+            mIgnoreCheckChanged = false;
+            setCheckedId(mCheckedId);
+        }
     }
 
     public void clearCheck() {
@@ -103,14 +105,12 @@ public class RadioToggleButtonGroupTableLayout extends TableLayout {
      * @see android.widget.TableLayout#addView(android.view.View, int, android.view.ViewGroup.LayoutParams)
      */
     @Override
-    public void addView(View child, int index,
-                        android.view.ViewGroup.LayoutParams params) {
-        super.addView(child, index, params);
+    public void addView(View child, int index, android.view.ViewGroup.LayoutParams params) {
         TableRow tableRow = (TableRow)child;
         final int cc = tableRow.getChildCount();
         for (int i = 0; i < cc; i++) {
             final View rowChild = tableRow.getChildAt(i);
-            if (rowChild instanceof Checkable) {
+            if (rowChild instanceof RadioToggleButton) {
                 final RadioToggleButton toggleButton = (RadioToggleButton)rowChild;
                 if (toggleButton.isChecked()) {
                     mIgnoreCheckChanged = true;
@@ -122,6 +122,7 @@ public class RadioToggleButtonGroupTableLayout extends TableLayout {
                 }
             }
         }
+        super.addView(child, index, params);
     }
 
     public int getCheckedViewId() {

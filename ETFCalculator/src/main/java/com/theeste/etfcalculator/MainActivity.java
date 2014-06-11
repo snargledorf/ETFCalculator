@@ -3,6 +3,7 @@ package com.theeste.etfcalculator;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 
@@ -14,6 +15,8 @@ public class MainActivity extends FragmentActivity implements
 
     private static final String TAG_CALENDAR_DATE_PICKER = "CalendarDatePickerDialog";
 
+    private static final String TAG_CALCULATOR = "Calculator";
+
     static {
         FastDateTimeZoneProvider.init();
     }
@@ -22,12 +25,16 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, new CalculatorFragment(), TAG_CALCULATOR)
+                    .commit();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         setCalendarDatePickerOnDateSetListener();
     }
 
@@ -40,18 +47,27 @@ public class MainActivity extends FragmentActivity implements
     }
 
     @Override
-    public void setContractEndDateButtonClicked(CalculatorFragment calculatorFragment) {
-        LocalDate contractEndDate = calculatorFragment.getContractEndDate();
+    public void onContractDateButtonClicked(CalculatorFragment calculatorFragment) {
+        LocalDate contractDate = calculatorFragment.getContractDate();
 
         CalendarDatePickerDialog calendarDatePickerDialog =
                 CalendarDatePickerDialog
                         .newInstance(
                                 this,
-                                contractEndDate.getYear(),
-                                contractEndDate.getMonthOfYear() - 1, // CalendarDatePicker uses 0 based month
-                                contractEndDate.getDayOfMonth());
+                                contractDate.getYear(),
+                                contractDate.getMonthOfYear() - 1, // CalendarDatePicker uses 0 based month
+                                contractDate.getDayOfMonth());
 
         calendarDatePickerDialog.show(getSupportFragmentManager(), TAG_CALENDAR_DATE_PICKER);
+    }
+
+    @Override
+    public void onCalculatorSettingsClicked(CalculatorFragment calculatorFragment) {
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.fragment_container, new CalculatorSettingsFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     @Override
@@ -61,7 +77,7 @@ public class MainActivity extends FragmentActivity implements
 
     private void setContractEndDate(int year, int month, int day) {
         CalculatorFragment calculatorFragment =
-                (CalculatorFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_calculator);
+                (CalculatorFragment) getSupportFragmentManager().findFragmentByTag(TAG_CALCULATOR);
         if (calculatorFragment == null)
             return;
         calculatorFragment.setContractEndDate(year, month, day);

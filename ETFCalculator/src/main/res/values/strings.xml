@@ -6,6 +6,7 @@
     <string name="carrier_selection_prompt">Select your carrier</string>
     <string name="early_termination_fee_label">Your early termination fee is approximately</string>
     <string name="contract_date_label_end">When does your contract end</string>
+    <string name="contract_date_label_start">When did your contract begin</string>
     <string name="select_end_date">Select end date</string>
     <string name="etf_default_text">$0.00</string>
     <string name="ok">Ok</string>
@@ -13,5 +14,9 @@
     <string name="verizon">Verizon</string>
     <string name="sprint">Sprint</string>
     <string name="tmobile">T-Mobile</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="contract_date_mode_label">Choose when your contract:</string>
+    <string name="back_icon"><![CDATA[<]]></string>
+    <string name="enable_tmobile">Enable T-Mobile:</string>
 
 </resources>

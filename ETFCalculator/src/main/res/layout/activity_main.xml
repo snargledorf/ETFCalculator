@@ -1,16 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:fitsSystemWindows="true">
 
-    <fragment
-        android:id="@+id/fragment_calculator"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:name="com.theeste.etfcalculator.CalculatorFragment"
-        tools:layout="@layout/fragment_calculator" />
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

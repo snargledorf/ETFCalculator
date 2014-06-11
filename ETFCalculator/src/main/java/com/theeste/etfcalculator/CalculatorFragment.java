@@ -24,10 +24,10 @@ public class CalculatorFragment extends Fragment {
     private static final String CONTRACT_END_DATE = "contract_end_date";
 
     private TextView mETFLabel;
-    private Button mContractEndDateButton;
+    private Button mContractDateButton;
 
     private boolean mIsSmartphone;
-    private LocalDate mContractEndDate;
+    private LocalDate mContractDate;
 
     private CalculatorFragmentCallbacks mCallbacks;
     private RadioToggleButtonGroupTableLayout mCarrierButtonsContainer;
@@ -43,12 +43,12 @@ public class CalculatorFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            mContractEndDate = LocalDate.now();
+            mContractDate = LocalDate.now();
             return;
         }
 
         String contractEndDateString = savedInstanceState.getString(CONTRACT_END_DATE);
-        mContractEndDate = LocalDate.parse(contractEndDateString);
+        mContractDate = LocalDate.parse(contractEndDateString);
 
         mIsSmartphone = savedInstanceState.getBoolean(SMARTPHONE_TOGGLE_STATE);
     }
@@ -60,8 +60,10 @@ public class CalculatorFragment extends Fragment {
 
         setupSmartPhoneToggle(view);
         setupETFLabel(view);
-        setupContractEndDateButton(view);
         setupCarrierButtons(view);
+        setupContractDateButton(view);
+        setupContractDateLabel(view);
+        setupSettingsButton(view);
 
         updateETFLabel();
 
@@ -69,33 +71,69 @@ public class CalculatorFragment extends Fragment {
     }
 
     @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        int visibility = View.VISIBLE;
+        if (!EtfCalculatorPreferences.getPreferences(getActivity()).enableTmobile()) {
+            visibility = View.GONE;
+            if (mCarrierButtonsContainer.getCheckedViewId() == R.id.radio_tmobile) {
+                mCarrierButtonsContainer.check(R.id.radio_att);
+            }
+        }
+
+        getView().findViewById(R.id.radio_tmobile).setVisibility(visibility);
+    }
+
+    private void setupSettingsButton(View view) {
+        view.findViewById(R.id.button_settings).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCallbacks != null)
+                    mCallbacks.onCalculatorSettingsClicked(CalculatorFragment.this);
+            }
+        });
+    }
+
+    private void setupContractDateLabel(View view) {
+        TextView contractDateLabel = (TextView)view.findViewById(R.id.label_contract_date);
+        boolean useContractStartDate =
+                EtfCalculatorPreferences.getPreferences(getActivity()).useContractStartDate();
+        if (useContractStartDate) {
+            contractDateLabel.setText(R.string.contract_date_label_start);
+        } else {
+            contractDateLabel.setText(R.string.contract_date_label_end);
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SMARTPHONE_TOGGLE_STATE, mIsSmartphone);
-        outState.putString(CONTRACT_END_DATE, mContractEndDate.toString());
+        outState.putString(CONTRACT_END_DATE, mContractDate.toString());
     }
 
     private void setupETFLabel(View view) {
         mETFLabel = (TextView) view.findViewById(R.id.label_etf);
     }
 
-    private void setupContractEndDateButton(View view) {
+    private void setupContractDateButton(View view) {
 
-        mContractEndDateButton = (Button)view.findViewById(R.id.button_contract_end_date);
+        mContractDateButton = (Button)view.findViewById(R.id.button_contract_date);
 
-        if (mContractEndDateButton == null)
+        if (mContractDateButton == null)
             return;
 
-        mContractEndDateButton.setOnClickListener(new View.OnClickListener() {
+        mContractDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mCallbacks != null) {
-                    mCallbacks.setContractEndDateButtonClicked(CalculatorFragment.this);
+                    mCallbacks.onContractDateButtonClicked(CalculatorFragment.this);
                 }
             }
         });
 
-        updateContractEndDateButton();
+        updateContractDateButton();
     }
 
     private void setupCarrierButtons(View view) {
@@ -146,18 +184,19 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setContractEndDate(LocalDate date) {
-        mContractEndDate = date;
-        updateContractEndDateButton();
+        mContractDate = date;
+        updateContractDateButton();
         updateETFLabel();
     }
 
-    private void updateContractEndDateButton() {
-        if (mContractEndDateButton != null && mContractEndDate != null) {
-            mContractEndDateButton.setText(
+    private void updateContractDateButton() {
+        if (mContractDateButton != null && mContractDate != null) {
+            mContractDateButton.setText(
                     String.format("%s/%s/%s",
-                            mContractEndDate.getMonthOfYear(),
-                            mContractEndDate.getDayOfMonth(),
-                            mContractEndDate.getYear()));
+                            mContractDate.getMonthOfYear(),
+                            mContractDate.getDayOfMonth(),
+                            mContractDate.getYear())
+            );
         }
     }
 
@@ -170,11 +209,21 @@ public class CalculatorFragment extends Fragment {
         mETFLabel.setText(String.format("$%.2f", etf));
     }
 
-    public LocalDate getContractEndDate() {
-        return mContractEndDate;
+    private LocalDate getContractEndDate() {
+        boolean useContractStartDate =
+                EtfCalculatorPreferences.getPreferences(getActivity()).useContractStartDate();
+        if (useContractStartDate) {
+            return mContractDate.plusYears(2);
+        }
+        return mContractDate;
+    }
+
+    public LocalDate getContractDate() {
+        return mContractDate;
     }
 
     public interface CalculatorFragmentCallbacks {
-        void setContractEndDateButtonClicked(CalculatorFragment calculatorFragment);
+        void onContractDateButtonClicked(CalculatorFragment calculatorFragment);
+        void onCalculatorSettingsClicked(CalculatorFragment calculatorFragment);
     }
 }
