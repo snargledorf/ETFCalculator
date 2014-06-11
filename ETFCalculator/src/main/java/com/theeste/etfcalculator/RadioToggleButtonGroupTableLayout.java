@@ -1,5 +1,6 @@
 package com.theeste.etfcalculator;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -150,11 +151,7 @@ public class RadioToggleButtonGroupTableLayout extends TableLayout {
                     if (rowChild instanceof RadioToggleButton) {
                         int id = rowChild.getId();
                         if (id == View.NO_ID) {
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                                id = child.hashCode();
-                            } else {
-                                id = View.generateViewId();
-                            }
+                            id = generateNewViewId(child);
                             rowChild.setId(id);
                         }
 
@@ -199,6 +196,15 @@ public class RadioToggleButtonGroupTableLayout extends TableLayout {
             mIgnoreCheckChanged = false;
 
             setCheckedId(compoundButton.getId());
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private int generateNewViewId(View view) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return view.hashCode();
+        } else {
+            return View.generateViewId();
         }
     }
 }

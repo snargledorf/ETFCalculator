@@ -45,7 +45,8 @@ public class FastDateTimeZoneProvider implements Provider {
         return DateTimeZone.forOffsetMillis(rawOffset);
     }
 
-    public Set getAvailableIDs() {
+    @Override
+    public Set<String> getAvailableIDs() {
         return AVAILABLE_IDS;
     }
 }

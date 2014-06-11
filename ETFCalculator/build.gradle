@@ -21,17 +21,8 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 19
-    }
-    buildTypes {
-        release {
-            runProguard true
-            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
-        }
-    }
-    productFlavors {
-        defaultFlavor {
-            proguardFile 'proguard-rules.txt'
-        }
+        versionCode 3
+        versionName '2.0'
     }
     signingConfigs {
         release {
@@ -47,10 +38,14 @@ android {
             keyPassword System.getenv("KEY_PASSWORD")
         }
     }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
-
 dependencies {
     compile 'com.android.support:support-v4:+'
-    compile 'joda-time:joda-time:2.3@jar'
+    compile 'joda-time:joda-time:+'
     compile 'com.doomonafireball.betterpickers:library:+'
 }
