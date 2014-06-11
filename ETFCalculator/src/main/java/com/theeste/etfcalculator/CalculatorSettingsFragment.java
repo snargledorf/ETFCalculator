@@ -2,7 +2,11 @@ package com.theeste.etfcalculator;
 
 
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -47,8 +51,71 @@ public class CalculatorSettingsFragment extends Fragment {
         setupUseContractStartButton(view);
         setupBackButton(view);
         setupAboutButton(view);
+        setupThemeButtons(view);
 
         return view;
+    }
+
+    private void setupThemeButtons(View view) {
+        RadioToggleButtonGroupTableLayout toggleButtonGroupTableLayout =
+                (RadioToggleButtonGroupTableLayout)view.findViewById(R.id.theme_toggle_group);
+
+        if (toggleButtonGroupTableLayout == null)
+            return;
+
+        int theme = EtfCalculatorPreferences.getPreferences(getActivity()).getTheme();
+        switch (theme) {
+            case R.style.BlueTheme:
+                toggleButtonGroupTableLayout.check(R.id.toggle_blue_theme);
+                break;
+            case R.style.RedTheme:
+                toggleButtonGroupTableLayout.check(R.id.toggle_red_theme);
+                break;
+            case R.style.PurpleTheme:
+                toggleButtonGroupTableLayout.check(R.id.toggle_purple_theme);
+                break;
+            case R.style.GreenTheme:
+                toggleButtonGroupTableLayout.check(R.id.toggle_green_theme);
+                break;
+        }
+
+        toggleButtonGroupTableLayout.setOnCheckChangedListener(
+                new RadioToggleButtonGroupTableLayout.OnCheckedChangeListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onCheckedChanged(RadioToggleButtonGroupTableLayout view, int viewId) {
+                switch (viewId) {
+                    case R.id.toggle_blue_theme:
+                        setTheme(R.style.BlueTheme);
+                        break;
+                    case R.id.toggle_red_theme:
+                        setTheme(R.style.RedTheme);
+                        break;
+                    case R.id.toggle_purple_theme:
+                        setTheme(R.style.PurpleTheme);
+                        break;
+                    case R.id.toggle_green_theme:
+                        setTheme(R.style.GreenTheme);
+                        break;
+                }
+            }
+        });
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void setTheme(int themeResId) {
+        if (themeResId == EtfCalculatorPreferences.getPreferences(getActivity()).getTheme())
+            return;
+
+        EtfCalculatorPreferences.getPreferences(getActivity()).setTheme(themeResId);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            Intent intent = getActivity().getIntent();
+            getActivity().finish();
+            startActivity(intent);
+        } else {
+            getActivity().recreate();
+        }
     }
 
     private void setupAboutButton(View view) {

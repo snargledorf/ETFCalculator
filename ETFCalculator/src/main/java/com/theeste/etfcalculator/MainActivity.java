@@ -2,7 +2,6 @@ package com.theeste.etfcalculator;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 
@@ -24,7 +23,12 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        int themeResId = EtfCalculatorPreferences.getPreferences(this).getTheme();
+        setTheme(themeResId);
+
         setContentView(R.layout.activity_main);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new CalculatorFragment(), TAG_CALCULATOR)

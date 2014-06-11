@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="android:Theme.Holo.NoActionBar.TranslucentDecor">
-        <item name="android:windowBackground">@drawable/window_background</item>
+    <style name="BaseTheme" parent="android:Theme.Holo.NoActionBar.TranslucentDecor">
         <item name="android:textColor">@color/white</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="BlueTheme" parent="BaseTheme">
+        <item name="android:windowBackground">@color/holo_blue_dark</item>
+    </style>
+
+    <style name="RedTheme" parent="BaseTheme">
+        <item name="android:windowBackground">@color/holo_red_dark</item>
+    </style>
+    <style name="PurpleTheme" parent="BaseTheme">
+        <item name="android:windowBackground">@color/holo_purple</item>
+    </style>
+    <style name="GreenTheme" parent="BaseTheme">
+        <item name="android:windowBackground">@color/holo_green_dark</item>
     </style>
 </resources>

@@ -9,7 +9,8 @@ import android.preference.PreferenceManager;
  */
 public class EtfCalculatorPreferences {
     private static final String USE_CONTRACT_START_DATE = "use_contract_begin_date";
-    private static final String INCLUDE_TMOBILE = "include_tmobile";
+    private static final String ENABLE_TMOBILE = "enable_tmobile";
+    private static final String THEME_COLOR = "theme_color";
 
     private static EtfCalculatorPreferences instance;
 
@@ -39,10 +40,18 @@ public class EtfCalculatorPreferences {
     }
 
     public void setEnableTmobile(boolean include) {
-        mPreferences.edit().putBoolean(INCLUDE_TMOBILE, include).apply();
+        mPreferences.edit().putBoolean(ENABLE_TMOBILE, include).apply();
     }
 
     public boolean enableTmobile() {
-        return mPreferences.getBoolean(INCLUDE_TMOBILE, false);
+        return mPreferences.getBoolean(ENABLE_TMOBILE, false);
+    }
+
+    public void setTheme(int color) {
+        mPreferences.edit().putInt(THEME_COLOR, color).apply();
+    }
+
+    public int getTheme() {
+        return mPreferences.getInt(THEME_COLOR, R.color.holo_blue_dark);
     }
 }
