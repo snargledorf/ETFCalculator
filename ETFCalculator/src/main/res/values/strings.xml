@@ -18,5 +18,11 @@
     <string name="contract_date_mode_label">Choose when your contract:</string>
     <string name="back_icon"><![CDATA[<]]></string>
     <string name="enable_tmobile">Enable T-Mobile:</string>
+    <string name="android_asset_studio_link">http://romannurik.github.io/AndroidAssetStudio/index.html</string>
+    <string name="android_asset_studio">Android Asset Studio: Roman Nurik</string>
+    <string name="calculator_icon_link">http://iconfindr.com/SzIzpU</string>
+    <string name="calculator_icon">Calculator icon: Yannick Lung</string>
+    <string name="about">About</string>
+    <string name="an_app_by">An app by</string>
 
 </resources>

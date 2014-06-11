@@ -29,13 +29,13 @@ public class CalculatorFragment extends Fragment {
     private boolean mIsSmartphone;
     private LocalDate mContractDate;
 
-    private CalculatorFragmentCallbacks mCallbacks;
+    private CalculatorCallbacks mCallbacks;
     private RadioToggleButtonGroupTableLayout mCarrierButtonsContainer;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mCallbacks = (CalculatorFragmentCallbacks) activity;
+        mCallbacks = (CalculatorCallbacks) activity;
     }
 
     @Override
@@ -222,7 +222,7 @@ public class CalculatorFragment extends Fragment {
         return mContractDate;
     }
 
-    public interface CalculatorFragmentCallbacks {
+    public interface CalculatorCallbacks {
         void onContractDateButtonClicked(CalculatorFragment calculatorFragment);
         void onCalculatorSettingsClicked(CalculatorFragment calculatorFragment);
     }

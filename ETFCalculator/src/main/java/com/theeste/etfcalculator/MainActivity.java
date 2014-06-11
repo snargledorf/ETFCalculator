@@ -1,6 +1,5 @@
 package com.theeste.etfcalculator;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -11,7 +10,8 @@ import org.joda.time.LocalDate;
 
 public class MainActivity extends FragmentActivity implements
         CalendarDatePickerDialog.OnDateSetListener,
-        CalculatorFragment.CalculatorFragmentCallbacks {
+        CalculatorFragment.CalculatorCallbacks,
+        CalculatorSettingsFragment.CalculatorSettingsCallbacks {
 
     private static final String TAG_CALENDAR_DATE_PICKER = "CalendarDatePickerDialog";
 
@@ -66,7 +66,6 @@ public class MainActivity extends FragmentActivity implements
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.fragment_container, new CalculatorSettingsFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit();
     }
 
@@ -81,5 +80,13 @@ public class MainActivity extends FragmentActivity implements
         if (calculatorFragment == null)
             return;
         calculatorFragment.setContractEndDate(year, month, day);
+    }
+
+    @Override
+    public void onCalculatorSettingsAboutClicked() {
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.fragment_container, new AboutFragment())
+                .commit();
     }
 }

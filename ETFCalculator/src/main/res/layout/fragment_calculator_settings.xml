@@ -13,6 +13,16 @@
         android:background="@drawable/circle_button_background"
         android:layout_gravity="top|left"
         tools:ignore="HardcodedText" />
+
+    <Button
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/about"
+        android:id="@+id/button_about"
+        android:background="@drawable/rounded_button_background"
+        android:layout_gravity="bottom|center" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
