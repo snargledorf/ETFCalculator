@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.joda.time.LocalDate;
 
@@ -125,7 +125,7 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setupSmartPhoneToggle(View view) {
-        CheckBox smartPhoneToggle = (CheckBox) view.findViewById(R.id.checkbox_smartphone);
+        ToggleButton smartPhoneToggle = (ToggleButton) view.findViewById(R.id.toggle_smartphone);
 
         smartPhoneToggle.setChecked(mIsSmartphone);
 

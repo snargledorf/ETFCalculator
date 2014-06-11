@@ -5,7 +5,7 @@
     <string name="smartphone_toggle">Smartphone</string>
     <string name="carrier_selection_prompt">Select your carrier</string>
     <string name="early_termination_fee_label">Your early termination fee is approximately</string>
-    <string name="contract_end_date_label">When does your contract end?</string>
+    <string name="contract_date_label_end">When does your contract end</string>
     <string name="select_end_date">Select end date</string>
     <string name="etf_default_text">$0.00</string>
     <string name="ok">Ok</string>

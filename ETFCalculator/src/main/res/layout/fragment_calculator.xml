@@ -23,7 +23,6 @@
             android:id="@+id/carrier_buttons_container"
             custom:defaultChecked="@+id/radio_att">
             <TableRow
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <com.theeste.etfcalculator.RadioToggleButton
@@ -48,7 +47,6 @@
                     android:background="@drawable/rounded_button_background" />
             </TableRow>
             <TableRow
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <com.theeste.etfcalculator.RadioToggleButton
@@ -75,24 +73,30 @@
             </TableRow>
         </com.theeste.etfcalculator.RadioToggleButtonGroupTableLayout>
 
-        <CheckBox
-            android:layout_width="wrap_content"
+        <ToggleButton
+            android:layout_width="@dimen/button_width"
             android:layout_height="wrap_content"
-            android:id="@+id/checkbox_smartphone"
-            android:text="@string/smartphone_toggle"
+            android:id="@+id/toggle_smartphone"
+            android:textOn="@string/smartphone_toggle"
+            android:textOff="@string/smartphone_toggle"
             android:background="@drawable/rounded_button_background"
             android:textSize="@dimen/button_text_size"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            tools:checked="false" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            tools:checked="false"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/contract_end_date_label"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="4dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/contract_date_label_end"
+            android:id="@+id/label_contract_date"
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <Button
             android:layout_width="@dimen/button_width"
@@ -102,6 +106,7 @@
             android:background="@drawable/rounded_button_background"
             android:textSize="@dimen/button_text_size"
             tools:text="12/30/2014" />
+
     </LinearLayout>
 
     <LinearLayout
