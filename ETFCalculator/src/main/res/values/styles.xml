@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="android:Theme.Holo.NoActionBar">
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
         <item name="android:windowBackground">@drawable/window_background</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:buttonStyleToggle">@style/ButtonText</item>
+        <item name="android:buttonStyle">@style/ButtonText</item>
+    </style>
+    <style name="ButtonText" parent="android:Widget.Button">
         <item name="android:textColor">@color/white</item>
     </style>
 </resources>

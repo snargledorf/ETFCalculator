@@ -25,7 +25,7 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1">
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher_large"
-                android:layout_margin="8dp"/>
+                android:layout_margin="4dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,22 +42,20 @@
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/app_name"
-                android:layout_margin="8dp"/>
+                android:layout_margin="4dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/calculator_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:text="@string/calculator_icon_link"
                 android:linksClickable="true"
                 android:autoLink="web" />
@@ -66,16 +64,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/android_asset_studio" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="4dp"
                 android:text="@string/android_asset_studio_link"
                 android:linksClickable="true"
                 android:autoLink="web"  />
@@ -86,8 +81,8 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            >
+            android:layout_margin="8dp"
+            android:layout_gravity="center_horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
