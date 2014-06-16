@@ -23,11 +23,10 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        int themeResId = EtfCalculatorPreferences.getPreferences(this).getTheme();
-        setTheme(themeResId);
-
         setContentView(R.layout.activity_main);
+
+        int theme = EtfCalculatorPreferences.getPreferences(this).getTheme();
+        ThemeUtils.setTheme(this, theme);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

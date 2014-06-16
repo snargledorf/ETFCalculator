@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 public class EtfCalculatorPreferences {
     private static final String USE_CONTRACT_START_DATE = "use_contract_begin_date";
     private static final String ENABLE_TMOBILE = "enable_tmobile";
-    private static final String THEME_COLOR = "theme_color";
+    private static final String THEME = "theme";
 
     private static EtfCalculatorPreferences instance;
 
@@ -47,11 +47,11 @@ public class EtfCalculatorPreferences {
         return mPreferences.getBoolean(ENABLE_TMOBILE, false);
     }
 
-    public void setTheme(int color) {
-        mPreferences.edit().putInt(THEME_COLOR, color).apply();
+    public void setTheme(int theme) {
+        mPreferences.edit().putInt(THEME, theme).apply();
     }
 
     public int getTheme() {
-        return mPreferences.getInt(THEME_COLOR, R.color.holo_blue_dark);
+        return mPreferences.getInt(THEME, ThemeUtils.THEME_BLUE);
     }
 }
